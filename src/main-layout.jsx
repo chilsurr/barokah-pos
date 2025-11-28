@@ -1,21 +1,25 @@
 
-import { Layout } from "antd";
-const {Header,Content,Sider,Footer} = Layout
+import { Layout, Button, } from "antd";
+const {Header,Footer} = Layout
+
+import Home from "./component/home";
 
 
 function MainLayout() {
     return(
         <>
-            <Layout>
-                <Header>
+            <Layout className="container">
+                <Header className="header">
                     <div>BAROKAH</div>
                 </Header>
-                <Layout>
-                    <Content></Content>
-                    <Sider></Sider>
+                <Layout className="main-content">
+                    <Home/>
                 </Layout>
-                <Footer>
-
+                <Footer className="footer">
+                    <Button className="footer-btn">HOME</Button>
+                    <Button className="footer-btn">HOME</Button>
+                    <Button className="footer-btn">HOME</Button>
+                    <Button className="footer-btn">HOME</Button>
                 </Footer>
             </Layout>
         </>

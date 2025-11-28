@@ -1,0 +1,141 @@
+.search-item{
+  display: flex;
+  justify-content: center;
+}
+
+.search-item input{
+  margin: 15px 0; 
+  height: 40px;
+  width: 80%;
+}
+
+.left-col{
+  height: 100%;
+}
+
+.products{
+  height: 85%;
+  background-color: var(--accent-color-4);
+  padding: 0 25px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.item{
+  background-color: var(--accent-color-2);
+  margin: 10px 0;
+  padding:5px 10px ;
+  border-radius: 5px;
+  font-size: 18px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.tambah-btn{
+  font-weight: 500;
+  margin-left: 15px;
+}
+
+.tambah-btn:hover{
+  border-color: var(--primary-color) !important;
+  color: var(--primary-color) !important;
+}
+
+.sider{
+  background-color: var(--accent-color-3);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 5px 20px;
+}
+
+.summary{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 28px;
+  font-weight: 500;
+  margin: 15px 0;
+}
+
+.summary-header{
+  display: flex;
+  justify-content: space-between;
+  border-top: dashed black 2px;
+  border-bottom: dashed black 2px;
+  padding: 5px 5px;
+  font-size: 14px;
+}
+.summary-item{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 5px;
+  font-size: 16px;
+}
+
+.item-no{
+  flex: 0.3;
+  text-align: left;
+}
+.item-name{
+  flex: 3;
+  text-align: left;
+}
+.item-qty{
+  flex: 0.3;
+  text-align: center;
+}
+.item-price{
+  flex: 0.8;
+  text-align: right;
+}
+
+
+.header-no{
+  flex: 0.3;
+  text-align: left;
+}
+.header-name{
+  flex: 3;
+  text-align: center;
+}
+.header-qty{
+  flex: 0.3;
+  text-align: center;
+}
+.header-price{
+  flex: 0.8;
+  text-align: right;
+}
+
+
+.summary-footer{
+  margin-top: auto;
+}
+
+.summary-total{
+  display: flex;
+  justify-content: space-between;
+  font-size: 24px;
+  font-weight: 500;
+  border-top: solid black 2px;
+  border-bottom: solid black 2px;
+  padding: 10px 5px;
+}
+
+.summary-payment{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.choose-payment-btn{
+  width: 180px;
+  height: 50px;
+  font-size: 22px;
+  font-weight: 500;
+  margin: 0 auto;
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
