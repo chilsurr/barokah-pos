@@ -138,4 +138,11 @@
   margin: 0 auto;
   margin-top: 15px;
   margin-bottom: 20px;
+  background-color: var(--primary-color);
+  color: var(--accent-color-4);
+}
+
+.choose-payment-btn:hover{
+  border-color: var(--primary-color) !important;
+  color: var(--primary-color) !important;
 }

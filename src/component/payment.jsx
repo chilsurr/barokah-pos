@@ -20,13 +20,40 @@ function Payment() {
                     </div>
                     <div className="money-input">
                         <Input/>
-                        <Button className="process-btn">process</Button>
+                        <Button className="process-btn">PROCESS</Button>
                     </div>
                 </div>
             </div>
             <div className="payment-down">
                 <Row className="row-payment-down">
-                    <Col style={{backgroundColor:"red"}} span={14}></Col>
+                    <Col className="col-payment-info" span={14}>
+                        <div className="payment-info">
+                            <div className="row-payment-info">
+                                <span>Total</span>
+                                <span>0</span>
+                            </div>
+                            <div className="row-payment-info">
+                                <span>Cash</span>
+                                <span>0</span>
+                            </div>
+                            <div className="row-payment-info">
+                                <span>Wallet</span>
+                                <span>0</span>
+                            </div>
+                            <div className="row-payment-info">
+                                <span>Change</span>
+                                <span>0</span>
+                            </div>
+                        </div>
+                        <div className="payment-options">
+                            <Button className="payment-options-btn">CASH</Button>
+                            <Button className="payment-options-btn">WALLET</Button>
+                            <div className="payment-actions">
+                                <Button className="back-actions-btn">BACK</Button>
+                                <Button className="payment-actions-btn">PAYMENT</Button>
+                            </div>
+                        </div>
+                    </Col>
                     <Col className="col-keypad" span={10}>
                         <div className="keypad-panel">
                             <div className="keypad-operation">
