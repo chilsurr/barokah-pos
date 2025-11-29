@@ -1,7 +1,15 @@
 import { Layout, Button,Row, Col,Input } from "antd";
 import "../style/home.css"
+import { useNavigate } from "react-router-dom";
+
+
+
 
 function Home() {
+    const navigate = useNavigate();
+    function goToPayment() {
+        navigate("payment/")
+    }
     return(
         <Row style={{height: '100%'}}>
             <Col span={16} className='left-col'>
@@ -61,7 +69,7 @@ function Home() {
                             </div>
                         </div>
                         <div className='summary-payment'>
-                            <Button className='choose-payment-btn'>PAYMENT</Button>
+                            <Button className='choose-payment-btn' onClick={goToPayment}>PAYMENT</Button>
                         </div>
                     </div>
                 </div>

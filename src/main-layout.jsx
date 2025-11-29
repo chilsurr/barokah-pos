@@ -1,4 +1,4 @@
-
+import { Outlet,useNavigate } from "react-router-dom";
 import { Layout, Button, } from "antd";
 const {Header,Footer} = Layout
 
@@ -13,7 +13,7 @@ function MainLayout() {
                     <div>BAROKAH</div>
                 </Header>
                 <Layout className="main-content">
-                    <Home/>
+                    <Outlet/>
                 </Layout>
                 <Footer className="footer">
                     <Button className="footer-btn">HOME</Button>
