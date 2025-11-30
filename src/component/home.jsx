@@ -1,4 +1,4 @@
-import { Layout, Button,Row, Col,Input } from "antd";
+import { Button,Row, Col,Input } from "antd";
 import "../style/home.css"
 import { useNavigate } from "react-router-dom";
 

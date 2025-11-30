@@ -44,6 +44,7 @@
     width: 100px;
     height: 50px;
     margin-right: 15px;
+    font-weight: 500;
 }
 .money-predict-btn:hover{
     border-color: var(--primary-color) !important;
@@ -73,8 +74,8 @@
 }
 
 .process-btn:hover{
-  border-color: var(--primary-color) !important;
-  color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: var(--primary-color) !important;
 }
 
 
@@ -94,6 +95,118 @@
 .payment-info{
     width: 35em ;
     padding: 0 15px;
+}
+
+
+.receipe{
+    padding: 5px 15px;
+}
+
+.header-receipe{
+    margin: 10px 0;
+    text-align: center;
+}
+
+.logo-receipe{
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+}
+
+.adress-receipe{
+    display: flex;
+    justify-content: center;
+}
+
+.header-item-receipe{
+    display: flex;
+    justify-content: space-between;
+    border-top: dashed black 2px;
+    border-bottom: dashed black 2px;
+    padding: 5px 5px;
+    font-size: 12px;
+}
+
+.header-item-receipe-no{
+    flex: 0.3;
+    text-align: left;
+}
+.header-item-receipe-name{
+    flex: 3;
+    text-align: center;
+}
+.header-item-receipe-qty{
+    flex: 0.3;
+    text-align: center;
+}
+.header-item-receipe-price{
+    flex: 1;
+    text-align: right;
+}
+
+.item-receipe{
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 5px;
+    font-size: 12px;
+}
+
+.item-receipe-no{
+    flex: 0.3;
+    text-align: left;
+}
+.item-receipe-name{
+    flex: 3;
+    text-align: left;
+}
+.item-receipe-qty{
+    flex: 0.3;
+    text-align: center;
+}
+.item-receipe-price{
+    flex: 1;
+    text-align: right;
+}
+
+.total-receipe{
+    border-top: 2px dashed black ;
+    margin-top: 15px;
+    padding: 10px 5px;
+    font-size: 12px;
+}
+
+.total-receipe div{
+    display: flex;
+    justify-content: space-between;
+}
+
+.total-receipe div > span:first-child{
+    flex: 2.5;
+    text-align: left;
+}
+.total-receipe div > span:nth-child(2){
+    flex: 0.5;
+    text-align: center;
+}
+.total-receipe div > span:last-child{
+    flex: 0.7;
+    text-align: right;
+}
+
+.date-receipe{
+    display: flex;
+    justify-content: space-between;
+    border-top: dashed black 2px;
+    border-bottom: dashed black 2px;
+    padding: 5px 5px;
+    font-size: 12px
+}
+
+.sosmed-receipe{
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
 }
 
 

@@ -1,0 +1,25 @@
+.row-items-sales{
+    display: flex;
+    justify-content: center;
+}
+
+.col-items-sales{
+    height: 100%;
+}
+
+.items-sales-header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: 500;
+    padding: 10px;
+}
+
+.items-sales{
+    height: 80%;
+    background-color: var(--accent-color-4);
+    padding: 0 25px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
