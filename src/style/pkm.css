@@ -1,0 +1,40 @@
+.row-pkm{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.col-pkm{
+    height: 100%;
+    padding: 15px 0;
+}
+
+.search-pkm{
+    display: flex;
+    justify-content: center;
+}
+
+.value-input{
+    width: 80%;
+}
+
+.pkm-items{
+    height: 85%;
+    margin-top: 15px;
+    background-color: var(--accent-color-4);
+    padding: 10px 25px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.pkm-item{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    height: 60px;
+    padding: 0 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: var(--accent-color-2);
+}

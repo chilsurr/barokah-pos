@@ -17,6 +17,7 @@ function MainLayout() {
                 <Footer className="footer">
                     <Button className="footer-btn" onClick={()=> Navigate("/")}>HOME</Button>
                     <Button className="footer-btn" onClick={()=> Navigate("items-sales/")}>ITEMS SALES</Button>
+                    <Button className="footer-btn" onClick={()=> Navigate("pkm/")}>PKM</Button>
                     <Button className="footer-btn" onClick={()=> Navigate()}>REPORT SALES</Button>
                     <Button className="footer-btn" onClick={()=> Navigate()}>CLOSING</Button>
                 </Footer>
