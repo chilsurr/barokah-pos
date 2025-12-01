@@ -1,5 +1,5 @@
 import { Outlet,useNavigate } from "react-router-dom";
-import { Layout, Button, } from "antd";
+import { Layout, Button, Badge  } from "antd";
 const {Header,Footer} = Layout
 
 
@@ -17,8 +17,10 @@ function MainLayout() {
                 <Footer className="footer">
                     <Button className="footer-btn" onClick={()=> Navigate("/")}>HOME</Button>
                     <Button className="footer-btn" onClick={()=> Navigate("items-sales/")}>ITEMS SALES</Button>
-                    <Button className="footer-btn" onClick={()=> Navigate("pkm/")}>PKM</Button>
-                    <Button className="footer-btn" onClick={()=> Navigate()}>REPORT SALES</Button>
+                    <Badge className="custom-badge" count={5} offset={[-20, 4]}>
+                        <Button className="footer-btn" onClick={()=> Navigate("pkm/")}>PKM</Button>
+                    </Badge>
+                    <Button className="footer-btn" onClick={()=> Navigate("report-sales/")}>REPORT SALES</Button>
                     <Button className="footer-btn" onClick={()=> Navigate()}>CLOSING</Button>
                 </Footer>
             </Layout>

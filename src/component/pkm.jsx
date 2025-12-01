@@ -1,4 +1,4 @@
-import { Button,Row, Col,Input, Modal } from "antd";
+import { Button,Row, Col,Input, Modal, } from "antd";
 import { MinusOutlined, PlusOutlined} from '@ant-design/icons';
 import { useState } from "react";
 
@@ -33,20 +33,25 @@ function Pkm() {
     return(
         <>
             <Modal
-                title="Item Tersisa 4pcs"
+                title={<span className="modal-title">Gula</span>}
                 closable={{ 'aria-label': 'Custom Close Button' }}
                 open={isModalOpen}
                 onOk={handleOk}
                 onCancel={handleCancel}
+                okButtonProps={{className: "custom-ok-button"}}
+                cancelButtonProps={{ className: "custom-cancel-button" }}
             >
-                <p>Some contents...</p>
-                <Button onClick={decline}>
-                    <MinusOutlined />
-                </Button>
-                <span>{count}</span>
-                <Button onClick={increase}>
-                    <PlusOutlined />
-                </Button>
+                <div className="items-remaining">Item tersisa <span>4</span> pcs !!</div>
+                <div className="items-to-add">Total item yang ditambahkan</div>
+                <div className="counter">
+                    <Button className="counter-btn" onClick={decline}>
+                        <MinusOutlined />
+                    </Button>
+                    <div className="count">{count}</div>
+                    <Button className="counter-btn" onClick={increase}>
+                        <PlusOutlined />
+                    </Button>
+                </div>
             </Modal>
 
             <Row className="row-pkm" style={{height: '100%'}}>
@@ -57,15 +62,15 @@ function Pkm() {
                     <div className="pkm-items">
                         <div className="pkm-item">
                             <span>minyak</span>
-                            <Button onClick={showModal}>Acept</Button>
+                            <Button className="acept-btn" onClick={showModal}>Acept</Button>
                         </div>
                         <div className="pkm-item">
                             <span>gula</span>
-                            <Button onClick={showModal}>Acept</Button>
+                            <Button className="acept-btn" onClick={showModal}>Acept</Button>
                         </div>
                         <div className="pkm-item">
                             <span>terigu</span>
-                            <Button onClick={showModal}>Acept</Button>
+                            <Button className="acept-btn" onClick={showModal}>Acept</Button>
                         </div>
                     </div>
                 </Col>
