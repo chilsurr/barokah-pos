@@ -1,13 +1,19 @@
 import { Layout, Button,Row, Col,Input } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "../style/payment.css"
 import logo from "../../src/assets/logo-remove.png"
 
 function Payment() {
     const Navigate = useNavigate()
+
+    const Location = useLocation()
+    const cartPayment = Location.state?.cart || []
+    console.log(cartPayment)
+
     function backToHome(){
-        Navigate("/")
+        Navigate("/", {state:{cartPayment}})
     }
+
 
     return(
       <Row className="row-payment">
@@ -30,12 +36,16 @@ function Payment() {
                         <span className='header-item-receipe-qty'>QTY</span>
                         <span className='header-item-receipe-price'>PRICE</span>
                     </div>
-                    <div className="item-receipe">
-                        <span className='item-receipe-no'>1</span>
-                        <span className='item-receipe-name'>Lorem ipsum dolor sit amet.</span>
-                        <span className='item-receipe-qty'>1</span>
-                        <span className='item-receipe-price'>17.500</span>
-                    </div>
+                    {cartPayment.map((item,index) => {
+                        return(
+                            <div className="item-receipe" key={index}>
+                                <span className='item-receipe-no'>{index + 1}</span>
+                                <span className='item-receipe-name'>{item.name}</span>
+                                <span className='item-receipe-qty'>{item.qty}</span>
+                                <span className='item-receipe-price'>{item.price}</span>
+                            </div>
+                        )
+                    })}
                 </div>
                 <div className="total-receipe">
                     <div>

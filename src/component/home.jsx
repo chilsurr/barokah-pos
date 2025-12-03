@@ -1,15 +1,70 @@
 import { Button,Row, Col,Input } from "antd";
+import { MinusOutlined, PlusOutlined} from '@ant-design/icons';
 import "../style/home.css"
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 
 
 
 function Home() {
     const navigate = useNavigate();
+    const location =useLocation()
+    const[cart, setCart] = useState([])
+
     function goToPayment() {
-        navigate("payment/")
+        navigate("payment/", {state:{cart}})
     }
+
+    useEffect(()=>{
+        if (location.state?.cartPayment) {
+            console.log(location.state.cartPayment)
+            setCart(location.state.cartPayment)
+        }
+    },[])
+
+    const handleCart = (product) =>{
+        console.log(product)
+        setCart( prevCart =>{
+            const found = prevCart.find((item) => item.name == product.name)
+            if(found){
+                return prevCart.map(item =>
+                    item.name === product.name
+                    ? { ...item, qty: item.qty + 1 }
+                    : item
+                );
+            } else{
+                return [...prevCart, { ...product, qty: 1 }];
+            }
+        })
+    }
+
+    const [count, setCount] = useState(5);
+
+    const increase = (index) => {
+        setCart(cart.map((item, i) => 
+            i === index ? { ...item, qty: item.qty + 1 } : item
+        ));
+    };
+    const decline = (index) => {
+        const updated = cart
+            .map((item, i) =>
+            i === index ? { ...item, qty: item.qty - 1 } : item
+            )
+            .filter(item => item.qty > 0);
+
+        setCart(updated);
+    };
+
+    const items = [
+        { id: 1, name: "Minyak", price: 17500 ,qty: 1},
+        { id: 2, name: "Gula", price: 14000 ,qty: 1},
+        { id: 3, name: "Telur", price: 28000 ,qty: 1},
+        { id: 4, name: "Kopi", price: 12000 ,qty: 1},
+        { id: 5, name: "Teh", price: 6000 ,qty: 1}
+    ];
+
+    
     return(
         <Row style={{height: '100%'}}>
             <Col span={16} className='left-col'>
@@ -17,19 +72,12 @@ function Home() {
                     <Input placeholder='search product' />
                 </div>
                 <div className="products">
-                    <div className="item">
-                        <span>gula</span>
+                    {items.map((item) => (
+                        <div className="item" key={item.id}>
+                        <span>{item.name}</span>
                         <div>
-                            <span>Rp. 17.500</span>
-                            <Button className='tambah-btn'>Tambah</Button>
-                        </div>
-                    </div>
-                    {Array.from({ length: 15 }).map((_, index) => (
-                        <div className="item" key={index}>
-                        <span>gula</span>
-                        <div>
-                            <span>Rp. 17.500</span>
-                            <Button className='tambah-btn'>Tambah</Button>
+                            <span>{item.price}</span>
+                            <Button className='tambah-btn'onClick={() =>handleCart(item)}>Tambah</Button>
                         </div>
                         </div>
                     ))}
@@ -45,18 +93,18 @@ function Home() {
                         <span className='header-price'>PRICE</span>
                     </div>
                     <div className="summary-items-list">
-                        <div className="summary-item">
-                            <span className='item-no'>1</span>
-                            <span className='item-name'>Lorem ipsum dolor sit amet.</span>
-                            <span className='item-qty'>1</span>
-                            <span className='item-price'>17.500</span>
-                        </div>
-                        {Array.from({ length: 5 }).map((_, index) => (
+                        {cart.map((item,index) => (
                             <div className="summary-item" key={index}>
-                                <span className='item-no'>1</span>
-                                <span className='item-name'>Lorem ipsum dolor sit amet.</span>
-                                <span className='item-qty'>1</span>
-                                <span className='item-price'>17.500</span>
+                                <span className='item-no'>{index + 1}</span>
+                                <span className='item-name'>{item.name}</span>
+                                <Button className="counter-btn" onClick={()=> decline(index)}>
+                                    <MinusOutlined />
+                                </Button>
+                                    <span className='item-qty'>{item.qty}</span>
+                                <Button className="counter-btn" onClick={()=>increase(index)}>
+                                    <PlusOutlined />
+                                </Button>
+                                <span className='item-price'>{item.price}</span>
                             </div>
                         ))}
                     </div>

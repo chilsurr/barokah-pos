@@ -32,6 +32,7 @@
 .payment-total input{
     width: 40%;
     height: 60px;
+    text-align: end;
 }
 
 .payment-input{
@@ -147,7 +148,7 @@
 .item-receipe{
     display: flex;
     justify-content: space-between;
-    padding: 5px 5px;
+    padding: 3px 5px;
     font-size: 12px;
 }
 
@@ -170,7 +171,7 @@
 
 .total-receipe{
     border-top: 2px dashed black ;
-    margin-top: 15px;
+    margin-top: 10px;
     padding: 10px 5px;
     font-size: 12px;
 }

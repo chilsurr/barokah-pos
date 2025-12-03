@@ -43,5 +43,19 @@
   color: var(--primary-color) !important;
 }
 
+.close-modal{
+  width: 400px !important;
+}
 
+.form-close{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.close-input{
+  margin: 5px 0;
+  width: 300px;
+}
 
