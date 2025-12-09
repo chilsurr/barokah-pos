@@ -29,10 +29,18 @@
     font-weight: 500;
 }
 
-.payment-total input{
+.amount-total{
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 30px;
     width: 40%;
     height: 60px;
     text-align: end;
+
+    display: flex;
+    align-items: center; 
+    justify-content: flex-end;
 }
 
 .payment-input{
@@ -41,13 +49,13 @@
     padding: 20px 20px;
 }
 
-.money-predict-btn{
+.money-preset-btn{
     width: 100px;
     height: 50px;
     margin-right: 15px;
     font-weight: 500;
 }
-.money-predict-btn:hover{
+.money-preset-btn:hover{
     border-color: var(--primary-color) !important;
     color: var(--primary-color) !important;
 }
@@ -60,6 +68,8 @@
 }
 .money-input input{
     text-align: right;
+    padding: 5px;
+    font-size: 30px;
     width: 100%;
     height: 100px;
 }

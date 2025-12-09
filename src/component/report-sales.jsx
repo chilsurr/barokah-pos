@@ -1,74 +1,69 @@
 import React from 'react';
-import { Flex, Space, Table, Tag } from 'antd';
+import { Flex, Space, Table,Button, Tag } from 'antd';
 const columns = [
   {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-    render: text => <a>{text}</a>,
+    title: 'Tgl',
+    dataIndex: 'Tgl',
+    key: 'Tgl',
+    width: 20,
+    // render: text => <a>{text}</a>,
   },
   {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
+    title: 'Trx',
+    dataIndex: 'Trx',
+    key: 'Trx',
+    width: 50,
   },
   {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
+    title: 'AveragePurchase',
+    dataIndex: 'AveragePurchase',
+    key: 'AveragePurchase',
+    width: 120,
   },
   {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
-    render: (_, { tags }) => (
-      <Flex gap="small" align="center" wrap>
-        {tags.map(tag => {
-          let color = tag.length > 5 ? 'geekblue' : 'green';
-          if (tag === 'loser') {
-            color = 'volcano';
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </Flex>
-    ),
+    title: 'Sales',
+    key: 'Sales',
+    dataIndex: 'Sales',
+    width: 120,
+  },
+  {
+    title: 'Margin',
+    key: 'Margin',
+    dataIndex: 'Margin',
+    width: 120,
   },
   {
     title: 'Action',
     key: 'action',
+    width: 120,
     render: (_, record) => (
       <Space size="middle">
-        <a>Invite {record.name}</a>
-        <a>Delete</a>
+        <Button>See Detail</Button>
       </Space>
     ),
   },
 ];
 const data = [
   {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
+    Tgl: '1',
+    Trx: '60',
+    AveragePurchase: '20.000',
+    Sales: '5.604.500',
+    Margin: '2.780.000',
   },
   {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
+    Tgl: '2',
+    Trx: '79',
+    AveragePurchase: '25.000',
+    Sales: '6.303.700',
+    Margin: '1.200.500',
   },
   {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sydney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
+    Tgl: '3',
+    Trx: '56',
+    AveragePurchase: '23.000',
+    Sales: '4.765.500',
+    Margin: '1.320.500',
   },
 ];
 

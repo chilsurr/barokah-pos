@@ -23,6 +23,13 @@ function Home() {
         }
     },[])
 
+    const totalCart = () => {
+        return cart.reduce((total, item) => {
+                return total + (item.price * item.qty);
+            }, 0);
+        
+    }; 
+
     const handleCart = (product) =>{
         console.log(product)
         setCart( prevCart =>{
@@ -113,7 +120,7 @@ function Home() {
                             <div>TOTAL RUPIAH</div>
                             <div >
                                 <span>Rp. </span>
-                                <span>0</span>
+                                <span>{totalCart()}</span>
                             </div>
                         </div>
                         <div className='summary-payment'>
