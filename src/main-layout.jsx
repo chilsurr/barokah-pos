@@ -53,6 +53,7 @@ function MainLayout() {
                     <Badge className="custom-badge" count={5} offset={[-20, 4]}>
                         <Button className="footer-btn" onClick={()=> Navigate("pkm/")}>PKM</Button>
                     </Badge>
+                    <Button className="footer-btn" onClick={()=> Navigate("stock/")}>STOCK</Button>
                     <Button className="footer-btn" onClick={()=> Navigate("report-sales/")}>REPORT SALES</Button>
                     <Button className="footer-btn" onClick={showModal}>CLOSING</Button>
                 </Footer>

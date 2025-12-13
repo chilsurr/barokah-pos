@@ -66,20 +66,33 @@ function Home() {
     const items = [
         { id: 1, name: "Minyak", price: 17500 ,qty: 1},
         { id: 2, name: "Gula", price: 14000 ,qty: 1},
-        { id: 3, name: "Telur", price: 28000 ,qty: 1},
-        { id: 4, name: "Kopi", price: 12000 ,qty: 1},
-        { id: 5, name: "Teh", price: 6000 ,qty: 1}
+        { id: 3, name: "Garam", price: 5000 ,qty: 1},
+        { id: 4, name: "Telur", price: 28000 ,qty: 1},
+        { id: 5, name: "Kopi", price: 12000 ,qty: 1},
+        { id: 6, name: "Teh", price: 6000 ,qty: 1}
     ];
+
+    const[dataSearch, setDataSearch] = useState(items)
+    const handleSearch = (datainput)=>{
+        console.log(datainput.toLowerCase())
+        const data = items.filter((item)=>{
+            console.log(item.name.toLowerCase() )
+            return item.name.toLowerCase().includes(datainput.toLowerCase()) 
+        })
+        setDataSearch(data)
+    }
+
+
 
     
     return(
         <Row style={{height: '100%'}}>
             <Col span={16} className='left-col'>
                 <div className='search-item'>
-                    <Input placeholder='search product' />
+                    <Input placeholder='search product' onChange={(e)=>handleSearch(e.target.value)} />
                 </div>
                 <div className="products">
-                    {items.map((item) => (
+                    {(dataSearch.length > 0 ? dataSearch : items).map((item) => (
                         <div className="item" key={item.id}>
                         <span>{item.name}</span>
                         <div>

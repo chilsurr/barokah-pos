@@ -52,19 +52,19 @@ function Pkm() {
                 onCancel={handleCancel}
                 okButtonProps={{className: "custom-ok-button"}}
                 cancelButtonProps={{ className: "custom-cancel-button" }}
-            >
-                <div className="items-remaining">Item tersisa <span>{selectedItem.qty}</span> pcs !!</div>
-                <div className="items-to-add">Total item yang ditambahkan</div>
-                <div className="counter">
-                    <Button className="counter-btn" onClick={decline}>
-                        <MinusOutlined />
-                    </Button>
-                    <div className="count">{count}</div>
-                    <Button className="counter-btn" onClick={increase}>
-                        <PlusOutlined />
-                    </Button>
-                </div>
-            </Modal>
+                >
+                    <div className="items-remaining">Item tersisa <span>{selectedItem.qty}</span> pcs !!</div>
+                    <div className="items-to-add">Total item yang ditambahkan</div>
+                    <div className="counter">
+                        <Button className="counter-btn" onClick={decline}>
+                            <MinusOutlined />
+                        </Button>
+                        <div className="count">{count}</div>
+                        <Button className="counter-btn" onClick={increase}>
+                            <PlusOutlined />
+                        </Button>
+                    </div>
+                </Modal>
             
             )}
 
