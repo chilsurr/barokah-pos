@@ -3,6 +3,7 @@ import { MinusOutlined, PlusOutlined} from '@ant-design/icons';
 import "../style/home.css"
 import { useNavigate,useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { isAuthenticated } from "../utils/auth";
 
 
 
@@ -17,10 +18,22 @@ function Home() {
     }
 
     useEffect(()=>{
-        if (location.state?.cartPayment) {
-            console.log(location.state.cartPayment)
-            setCart(location.state.cartPayment)
+        const checkAuth = async()  =>{
+            const isauth = await isAuthenticated()
+            console.log(isauth)
+            if (isauth === true) {
+                console.log("ini uda login pak")
+                navigate("/")
+                if(location.state?.cartPayment){
+                    console.log(location.state.cartPayment)
+                    setCart(location.state.cartPayment)
+                }
+            }else{
+                console.log('lewat sini pack')
+                navigate("/login")
+            }  
         }
+        checkAuth()
     },[])
 
     const totalCart = () => {

@@ -3,35 +3,40 @@ import { useNavigate, useLocation,} from "react-router-dom";
 import "../style/payment.css"
 import logo from "../../src/assets/logo-remove.png"
 import { useState,useEffect } from "react";
+import { isAuthenticated } from "../utils/auth";
 import { Result } from "antd";
 
 function Payment() {
-    const Navigate = useNavigate()
+    const navigate = useNavigate()
     const Location = useLocation()
     const cartPayment = Location.state?.cart || []
     const [cashInput,setCashInput] = useState(0)
     const [date,setDate] = useState({date:"",time:""})
 
     function backToHome(){
-        Navigate("/", {state:{cartPayment}})
+        navigate("/", {state:{cartPayment}})
     }
 
     useEffect(()=>{
-        const today = new Date();
-        const yyyy = today.getFullYear();
-        const mm = String(today.getMonth() + 1).padStart(2, '0'); // bulan dimulai dari 0
-        const dd = String(today.getDate()).padStart(2, '0');
-
-        const hh = String(today.getHours()).padStart(2, '0');
-        const min = String(today.getMinutes()).padStart(2, '0');
-        const ss = String(today.getSeconds()).padStart(2, '0');
+        if (!isAuthenticated()) {
+            navigate("/login")
+        }else{
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0'); // bulan dimulai dari 0
+            const dd = String(today.getDate()).padStart(2, '0');
     
-        const formatDate = `${yyyy}-${mm}-${dd}`;
-        const formattime = `${hh}:${min}:${ss}`;
-        setDate({
-            date: formatDate,
-            time: formattime
-        }); 
+            const hh = String(today.getHours()).padStart(2, '0');
+            const min = String(today.getMinutes()).padStart(2, '0');
+            const ss = String(today.getSeconds()).padStart(2, '0');
+        
+            const formatDate = `${yyyy}-${mm}-${dd}`;
+            const formattime = `${hh}:${min}:${ss}`;
+            setDate({
+                date: formatDate,
+                time: formattime
+            }); 
+        }
     },[])
 
     const totalCartPayment = () =>{
@@ -198,7 +203,7 @@ function Payment() {
                             <div className="keypad-operation">
                                 <span onClick={()=> handleClear()}>Clear</span>
                                 <span onClick={()=> handleDelete()}>Del</span>
-                                <span>Enter</span>
+                                <span onClick={()=> handleProcess()}>Enter</span>
                             </div>
                             <div className="keypad-number">
                                 {['7', '8', '9', '4', '5', '6', '1', '2', '3', '0', '00', '000'].map((key) => (

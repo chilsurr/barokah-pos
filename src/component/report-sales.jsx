@@ -1,5 +1,8 @@
 import React from 'react';
 import { Flex, Space, Table,Button, Tag } from 'antd';
+import { useNavigate,useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { isAuthenticated } from "../utils/auth";
 const columns = [
   {
     title: 'Tgl',
@@ -67,5 +70,15 @@ const data = [
   },
 ];
 
-const ReportSales = () => <Table columns={columns} dataSource={data} />;
+function ReportSales(){
+  const navigate = useNavigate()
+    useEffect(()=>{
+      if (!isAuthenticated()) {
+          navigate("/login")
+      }
+  },[])
+  return(
+    <Table columns={columns} dataSource={data} />
+  )
+};
 export default ReportSales;

@@ -1,13 +1,20 @@
 import { useNavigate } from "react-router-dom"
+import { useState, useEffect } from "react";
 import { UploadOutlined } from '@ant-design/icons';
 import { ConfigProvider,Upload,message, Button,Row, Col,Input ,Modal} from "antd";
-import { useState } from "react";
+import { postExcel } from "../utils/api";
+import { isAuthenticated } from "../utils/auth";
 
 import "../style/stock.css"
 
 
 function stock() {
-    const Navigate = useNavigate()
+    const navigate = useNavigate()
+        useEffect(()=>{
+        if (!isAuthenticated()) {
+            navigate("/login")
+        }
+    },[])
     const props = {
         beforeUpload: file => {
             const isXlsx = 
@@ -15,13 +22,16 @@ function stock() {
                 file.type === 'application/vnd.ms-excel';
             if (!isXlsx) {
                 message.error(`${file.name} is not excel file`);
+                return isXlsx || Upload.LIST_IGNORE;
+            }else{
+                postExcel(file)
+                alert("upload berhasil pak")
+                // return false;
             }
-            alert("file excel bener pak")
-            // return isXlsx || Upload.LIST_IGNORE;
         },
-        onChange: info => {
-            console.log(info.fileList);
-        },
+        // onChange: info => {
+        //     console.log(info.fileList);
+        // },
     };
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -76,7 +86,7 @@ function stock() {
         okButtonProps={{className: "custom-ok-button"}}
         cancelButtonProps={{ className: "custom-cancel-button" }}
         >
-            <Upload {...props} maxCount={1}>
+            <Upload {...props} maxCount={1} showUploadList={false}>
                 <Button icon={<UploadOutlined />}>Upload Here</Button>
             </Upload> 
         </Modal>

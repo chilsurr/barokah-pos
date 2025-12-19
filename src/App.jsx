@@ -7,6 +7,7 @@ import ItemsSales from "./component/items-sales";
 import Pkm from "./component/pkm";
 import Stock from "./component/stock";
 import ReportSales from "./component/report-sales";
+import Login from "./component/login";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="pkm/" element={<Pkm/>}/>
           <Route path="stock/" element={<Stock/>}/>
           <Route path="report-sales/" element={<ReportSales/>}/>
+          <Route path="login/" element={<Login/>}/>
         </Route>
       </Routes>
     </Router>

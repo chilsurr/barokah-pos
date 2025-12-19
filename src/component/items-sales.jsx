@@ -1,10 +1,17 @@
-import { useNavigate } from "react-router-dom"
 import { Layout, Button,Row, Col,Input } from "antd";
+import { useNavigate,useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { isAuthenticated } from "../utils/auth";
 
 import "../style/items-sales.css"
 
 function ItemsSales() {
-    const Navigate = useNavigate()
+    const navigate = useNavigate()
+     useEffect(()=>{
+        if (!isAuthenticated()) {
+            navigate("/login")
+        }
+    },[])
     return(
         <Row className="row-items-sales" style={{height: '100%'}}>
             <Col className="col-items-sales" span={16}>
