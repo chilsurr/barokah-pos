@@ -4,7 +4,10 @@ import "../style/payment.css"
 import logo from "../../src/assets/logo-remove.png"
 import { useState,useEffect } from "react";
 import { isAuthenticated } from "../utils/auth";
+import { postOrder,postOrderDetail } from "../utils/api";
+import { nanoid } from 'nanoid'
 import { Result } from "antd";
+import { Alert } from "antd";
 
 function Payment() {
     const navigate = useNavigate()
@@ -16,43 +19,54 @@ function Payment() {
     function backToHome(){
         navigate("/", {state:{cartPayment}})
     }
-
-    useEffect(()=>{
-        if (!isAuthenticated()) {
-            navigate("/login")
-        }else{
-            const today = new Date();
-            const yyyy = today.getFullYear();
-            const mm = String(today.getMonth() + 1).padStart(2, '0'); // bulan dimulai dari 0
-            const dd = String(today.getDate()).padStart(2, '0');
-    
-            const hh = String(today.getHours()).padStart(2, '0');
-            const min = String(today.getMinutes()).padStart(2, '0');
-            const ss = String(today.getSeconds()).padStart(2, '0');
-        
-            const formatDate = `${yyyy}-${mm}-${dd}`;
-            const formattime = `${hh}:${min}:${ss}`;
-            setDate({
-                date: formatDate,
-                time: formattime
-            }); 
-        }
-    },[])
-
-    const totalCartPayment = () =>{
-        return cartPayment.reduce((total,item) =>{
-            return total - (item.price * item.qty)
+    const [noBon,setNoBon] = useState([])
+    const [dataUser,setDataUser] = useState([])
+    const [totalCart,setTotalCart] = useState()
+    const handleTotalCart = () =>{
+        const result = cartPayment.reduce((total,item) =>{
+            return total + (item.price * item.qty)
         }, 0)
+        setTotalCart(result)
     }
 
+    useEffect(()=>{
+        const checkAuth = async()  =>{
+            const isauth = await isAuthenticated()
+            setDataUser(isauth.data)
+            if (isauth.status === 200) {
+                const today = new Date();
+                const yyyy = today.getFullYear();
+                const mm = String(today.getMonth() + 1).padStart(2, '0'); // bulan dimulai dari 0
+                const dd = String(today.getDate()).padStart(2, '0');
+        
+                const hh = String(today.getHours()).padStart(2, '0');
+                const min = String(today.getMinutes()).padStart(2, '0');
+                const ss = String(today.getSeconds()).padStart(2, '0');
+            
+                const formatDate = `${yyyy}${mm}${dd}`;
+                const formattime = `${hh}:${min}:${ss}`;
+                setDate({
+                    date: formatDate,
+                    time: formattime
+                }); 
+                setNoBon(isauth.data.id +'-'+ dd + mm+ nanoid(4).toUpperCase() )
+                handleTotalCart()
+            }else{
+                navigate("/login")
+            }  
+        }
+        checkAuth()
+    },[])
+
+
     const [isProcesed,setIsProcesed] =useState (false)
-    const [resoultPayment, setResoultPayment] = useState({total:0, cash:0, change:0})
+    const [resultPayment, setResultPayment] = useState({total:0, cash:0, change:0})
     const handleProcess = ()=>{
-        const total = totalCartPayment()
+        const total = totalCart
         const cash  = cashInput
-        const change = total + cash
-        setResoultPayment({
-            total : change,
+        const change = cash - total  
+        setResultPayment({
+            total : total,
             cash : cash,
             change : change
         })
@@ -66,11 +80,8 @@ function Payment() {
     }
 
     const handlekeypad = (value) =>{
-        console.log(value)
         setCashInput ((prevValue) => {
-            console.log(typeof(prevValue))
             const newValue = prevValue.toString() + value.toString()
-            console.log(newValue) 
             return parseInt(newValue)
         })
     }
@@ -88,6 +99,41 @@ function Payment() {
         })
     }
 
+    const handlePayment = async() =>{
+        if(resultPayment.total == 0){
+            alert("Uang cutomer tidak boleh 0")
+        }else if(resultPayment.cash < resultPayment.total){
+            alert('uang customer tidak boleh kurang')
+        }else{
+            try {
+                 alert(`invoice: ${noBon} total: ${resultPayment.total}`)
+
+                 const dataorder = {
+                     'invoice' : noBon,
+                     'total' : resultPayment.total,
+                     'user' : dataUser.id
+                 }
+                 console.log(dataorder)
+                const result = await postOrder(dataorder)
+                const orderId = result.data.id
+                console.log(orderId)
+                cartPayment.map((item)=>{
+                    const dataOrderDetail = {
+                        'order' : orderId,
+                        'product' : item.id,
+                        'quantity' : item.qty,
+                        'price' : item.price * item.qty,
+                    }
+                    console.log(dataOrderDetail)
+                    const result = postOrderDetail(dataOrderDetail)
+                })
+            } catch (error) {
+                console.log(error)
+            }
+           
+        }
+    }
+
     return(
       <Row className="row-payment">
         <Col className="left-col-payment" span={6}>
@@ -103,6 +149,10 @@ function Payment() {
                     </div>
                 </div>
                 <div className="items-receipe">
+                    <div className="no-bon">
+                        <span>NO BON :</span>
+                        <span>{noBon}</span>
+                    </div>
                     <div className="header-item-receipe">
                         <span className='header-item-receipe-no'>NO</span>
                         <span className='header-item-receipe-name'>ITEM</span>
@@ -124,15 +174,15 @@ function Payment() {
                     <div>
                         <span>TOTAL</span>
                         <span>{cartPayment.reduce((total,item)=> total+item.qty ,0)}</span>
-                        <span>{totalCartPayment() * -1}</span>
+                        <span>{totalCart}</span>
                     </div>
                     <div>
                         <span>CASH</span>
-                        <span>{isProcesed?resoultPayment.cash:0}</span>
+                        <span>{isProcesed?resultPayment.cash:0}</span>
                     </div>
                     <div>
                         <span>CHANGE</span>
-                        <span>{isProcesed?resoultPayment.change:0}</span>
+                        <span>{isProcesed?resultPayment.change:0}</span>
                     </div>
                 </div>
                 <div className="date-receipe">
@@ -152,7 +202,7 @@ function Payment() {
             <div className="payment-top">
                 <div className="payment-total">
                     <span>TOTAL</span>
-                    <div className="amount-total">{isProcesed?resoultPayment.change :totalCartPayment()}</div>
+                    <div className="amount-total">{isProcesed?resultPayment.change :totalCart * -1}</div>
                 </div>
                 <div className="payment-input">
                     <div className="money-preset">
@@ -174,11 +224,11 @@ function Payment() {
                         <div className="payment-info">
                             <div className="row-payment-info">
                                 <span>Total</span>
-                                <span>{totalCartPayment() * -1}</span>
+                                <span>{resultPayment.total}</span>
                             </div>
                             <div className="row-payment-info">
                                 <span>Cash</span>
-                                <span>{isProcesed?resoultPayment.cash:0}</span>
+                                <span>{isProcesed?resultPayment.cash:0}</span>
                             </div>
                             <div className="row-payment-info">
                                 <span>Wallet</span>
@@ -186,7 +236,7 @@ function Payment() {
                             </div>
                             <div className="row-payment-info">
                                 <span>Change</span>
-                                <span>{isProcesed?resoultPayment.change:0}</span>
+                                <span>{isProcesed?resultPayment.change:0}</span>
                             </div>
                         </div>
                         <div className="payment-options">
@@ -194,7 +244,7 @@ function Payment() {
                             <Button className="payment-options-btn">WALLET</Button>
                             <div className="payment-actions">
                                 <Button className="back-actions-btn" onClick={backToHome}>BACK</Button>
-                                <Button className="payment-actions-btn">PAYMENT</Button>
+                                <Button className="payment-actions-btn" onClick={()=> handlePayment()}>PAYMENT</Button>
                             </div>
                         </div>
                     </Col>

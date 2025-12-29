@@ -129,6 +129,13 @@
     justify-content: center;
 }
 
+.no-bon{
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    margin: 2px 0;
+}
+
 .header-item-receipe{
     display: flex;
     justify-content: space-between;

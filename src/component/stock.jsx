@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react";
 import { UploadOutlined } from '@ant-design/icons';
 import { ConfigProvider,Upload,message, Button,Row, Col,Input ,Modal} from "antd";
-import { postExcel } from "../utils/api";
+import { postExcel,getProduct } from "../utils/api";
 import { isAuthenticated } from "../utils/auth";
 
 import "../style/stock.css"
@@ -10,10 +10,23 @@ import "../style/stock.css"
 
 function stock() {
     const navigate = useNavigate()
-        useEffect(()=>{
-        if (!isAuthenticated()) {
-            navigate("/login")
+    const[items, setItems] = useState([])
+    useEffect(()=>{
+        const checkAuth = async()  =>{
+            const isauth = await isAuthenticated()
+            console.log(isauth)
+            if (isauth.status === 200) {
+                console.log("ini uda login pak")
+                getProduct().then((result)=>{
+                    console.log(result)
+                    setItems(result)
+                })
+            }else{
+                console.log('lewat sini pack')
+                navigate("/login")
+            }  
         }
+        checkAuth()
     },[])
     const props = {
         beforeUpload: file => {
@@ -48,14 +61,14 @@ function stock() {
     };
 
 
-    const items = [
-        { id: 1, name: "Minyak", price: 17500 ,qty: 1},
-        { id: 2, name: "Gula", price: 14000 ,qty: 1},
-        { id: 3, name: "Garam", price: 5000 ,qty: 1},
-        { id: 4, name: "Telur", price: 28000 ,qty: 1},
-        { id: 5, name: "Kopi", price: 12000 ,qty: 1},
-        { id: 6, name: "Teh", price: 6000 ,qty: 1}
-    ];
+    // const items = [
+    //     { id: 1, name: "Minyak", price: 17500 ,qty: 1},
+    //     { id: 2, name: "Gula", price: 14000 ,qty: 1},
+    //     { id: 3, name: "Garam", price: 5000 ,qty: 1},
+    //     { id: 4, name: "Telur", price: 28000 ,qty: 1},
+    //     { id: 5, name: "Kopi", price: 12000 ,qty: 1},
+    //     { id: 6, name: "Teh", price: 6000 ,qty: 1}
+    // ];
 
     const[dataSearch, setDataSearch] = useState(items)
     const handleSearch = (datainput)=>{
@@ -118,9 +131,9 @@ function stock() {
                         <div className="item" key={item.id}>
                         <span className="item-name">{item.name}</span>
                         <div className="item-child">
-                            <span>15.000</span>
-                            <span>17.500</span>
-                            <span>10</span>
+                            <span>{item.hpp}</span>
+                            <span>{item.price}</span>
+                            <span>{item.stock}</span>
                         </div>
                         </div>
                     ))}

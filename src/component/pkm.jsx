@@ -2,16 +2,30 @@ import { Button,Row, Col,Input, Modal, } from "antd";
 import { MinusOutlined, PlusOutlined} from '@ant-design/icons';
 import { useNavigate,useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { getProduct } from "../utils/api";
 import { isAuthenticated } from "../utils/auth";
 
 import "../style/pkm.css"
 
 function Pkm() {
     const navigate = useNavigate()
+    const [items, setItems] = useState([])
     useEffect(()=>{
-        if (!isAuthenticated()) {
-            navigate("/login")
+        const checkAuth = async()  =>{
+            const isauth = await isAuthenticated()
+            console.log(isauth)
+            if (isauth.status === 200) {
+                console.log("ini uda login pak")
+                getProduct().then((result)=>{
+                    console.log(result)
+                    setItems(result)
+                })
+            }else{
+                console.log('lewat sini pack')
+                navigate("/login")
+            }  
         }
+        checkAuth()
     },[])
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -41,14 +55,6 @@ function Pkm() {
     };
 
 
-    const items = [
-        { id: 1, name: "Minyak", price: 17500 ,qty: 10},
-        { id: 2, name: "Gula", price: 14000 ,qty: 4},
-        { id: 3, name: "Telur", price: 28000 ,qty: 11},
-        { id: 4, name: "Kopi", price: 12000 ,qty: 3},
-        { id: 5, name: "Teh", price: 6000 ,qty: 14}
-    ];
-
     return(
         <>
             {selectedItem && (
@@ -61,7 +67,7 @@ function Pkm() {
                 okButtonProps={{className: "custom-ok-button"}}
                 cancelButtonProps={{ className: "custom-cancel-button" }}
                 >
-                    <div className="items-remaining">Item tersisa <span>{selectedItem.qty}</span> pcs !!</div>
+                    <div className="items-remaining">Item tersisa <span>{selectedItem.stock}</span> pcs !!</div>
                     <div className="items-to-add">Total item yang ditambahkan</div>
                     <div className="counter">
                         <Button className="counter-btn" onClick={decline}>
@@ -82,7 +88,7 @@ function Pkm() {
                         <Input className="value-input"/>
                     </div>
                     <div className="pkm-items">
-                        {items.filter(item =>item.qty < 5 ).map(item=>{     
+                        {items.filter(item =>item.stock < 15 ).map(item=>{     
                             return <div className="pkm-item">
                                     <span>{item.name}</span>
                                     <Button className="acept-btn" onClick={()=>showModal(item)}>Acept</Button>

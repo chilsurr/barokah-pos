@@ -3,7 +3,8 @@ import { MinusOutlined, PlusOutlined} from '@ant-design/icons';
 import "../style/home.css"
 import { useNavigate,useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { isAuthenticated } from "../utils/auth";
+import { isAuthenticated, } from "../utils/auth";
+import { getProduct } from "../utils/api";
 
 
 
@@ -17,19 +18,29 @@ function Home() {
         navigate("payment/", {state:{cart}})
     }
 
+    const[items, setItems] = useState([])
+    const[dataSearch, setDataSearch] = useState([])
+    const handleSearch = (datainput)=>{
+        const data = items.filter((item)=>{
+            return item.name.toLowerCase().includes(datainput.toLowerCase()) 
+        })
+        setDataSearch(data)
+    }
+
+
     useEffect(()=>{
         const checkAuth = async()  =>{
             const isauth = await isAuthenticated()
-            console.log(isauth)
-            if (isauth === true) {
-                console.log("ini uda login pak")
-                navigate("/")
+
+            if (isauth.status === 200) {
+
+                getProduct().then((result)=>{
+                    setItems(result)
+                })
                 if(location.state?.cartPayment){
-                    console.log(location.state.cartPayment)
                     setCart(location.state.cartPayment)
                 }
             }else{
-                console.log('lewat sini pack')
                 navigate("/login")
             }  
         }
@@ -44,7 +55,6 @@ function Home() {
     }; 
 
     const handleCart = (product) =>{
-        console.log(product)
         setCart( prevCart =>{
             const found = prevCart.find((item) => item.name == product.name)
             if(found){
@@ -76,24 +86,15 @@ function Home() {
         setCart(updated);
     };
 
-    const items = [
-        { id: 1, name: "Minyak", price: 17500 ,qty: 1},
-        { id: 2, name: "Gula", price: 14000 ,qty: 1},
-        { id: 3, name: "Garam", price: 5000 ,qty: 1},
-        { id: 4, name: "Telur", price: 28000 ,qty: 1},
-        { id: 5, name: "Kopi", price: 12000 ,qty: 1},
-        { id: 6, name: "Teh", price: 6000 ,qty: 1}
-    ];
+    // const items = [
+    //     { id: 1, name: "Minyak", price: 17500 ,qty: 1},
+    //     { id: 2, name: "Gula", price: 14000 ,qty: 1},
+    //     { id: 3, name: "Garam", price: 5000 ,qty: 1},
+    //     { id: 4, name: "Telur", price: 28000 ,qty: 1},
+    //     { id: 5, name: "Kopi", price: 12000 ,qty: 1},
+    //     { id: 6, name: "Teh", price: 6000 ,qty: 1}
+    // ];
 
-    const[dataSearch, setDataSearch] = useState(items)
-    const handleSearch = (datainput)=>{
-        console.log(datainput.toLowerCase())
-        const data = items.filter((item)=>{
-            console.log(item.name.toLowerCase() )
-            return item.name.toLowerCase().includes(datainput.toLowerCase()) 
-        })
-        setDataSearch(data)
-    }
 
 
 
