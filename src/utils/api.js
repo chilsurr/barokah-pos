@@ -30,3 +30,9 @@ export const getProduct = async() =>{
     const items = await axiosInstance.get("/products/",);
     return items.data
 }
+
+
+export const putProduct = async(id,data) =>{
+    const items = await axiosInstance.put(`/products/${id}/`, data);
+    return items
+}

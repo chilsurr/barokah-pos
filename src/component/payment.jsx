@@ -1,10 +1,10 @@
 import { Layout, Button,Row, Col,Input } from "antd";
-import { useNavigate, useLocation,} from "react-router-dom";
+import { useNavigate, useLocation, Navigate,} from "react-router-dom";
 import "../style/payment.css"
 import logo from "../../src/assets/logo-remove.png"
 import { useState,useEffect } from "react";
 import { isAuthenticated } from "../utils/auth";
-import { postOrder,postOrderDetail } from "../utils/api";
+import { postOrder,postOrderDetail, getProduct,putProduct } from "../utils/api";
 import { nanoid } from 'nanoid'
 import { Result } from "antd";
 import { Alert } from "antd";
@@ -119,14 +119,26 @@ function Payment() {
                 console.log(orderId)
                 cartPayment.map((item)=>{
                     const dataOrderDetail = {
-                        'order' : orderId,
+                        // 'order' : orderId,
                         'product' : item.id,
                         'quantity' : item.qty,
                         'price' : item.price * item.qty,
                     }
                     console.log(dataOrderDetail)
+                    getProduct().then((result) =>{
+                        const data = result
+                        const cuki = data.find( product => product.id == item.id )
+                        if(cuki){
+                            putProduct(cuki.id,{
+                                stock : cuki.stock -= item.qty
+                            })
+                            console.log('berhasil edit pak')
+                        }
+                    })
                     const result = postOrderDetail(dataOrderDetail)
                 })
+                
+                // navigate("/")
             } catch (error) {
                 console.log(error)
             }

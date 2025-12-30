@@ -15,7 +15,11 @@ function Home() {
     const[cart, setCart] = useState([])
 
     function goToPayment() {
-        navigate("payment/", {state:{cart}})
+        if(cart.length < 1){
+            alert('keranjang tidak boleh kosong')
+        }else{
+            navigate("payment/", {state:{cart}})
+        }
     }
 
     const[items, setItems] = useState([])
