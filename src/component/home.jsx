@@ -35,9 +35,7 @@ function Home() {
     useEffect(()=>{
         const checkAuth = async()  =>{
             const isauth = await isAuthenticated()
-
             if (isauth.status === 200) {
-
                 getProduct().then((result)=>{
                     setItems(result)
                 })

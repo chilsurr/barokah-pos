@@ -1,16 +1,46 @@
-import { Layout, Button,Row, Col,Input } from "antd";
+import { Row, Col,Input } from "antd";
 import { useNavigate,useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { getOrderDetail } from "../utils/api";
 import { isAuthenticated } from "../utils/auth";
 
 import "../style/items-sales.css"
 
 function ItemsSales() {
     const navigate = useNavigate()
-     useEffect(()=>{
-        if (!isAuthenticated()) {
-            navigate("/login")
+    const[items, setItems] = useState([])
+    useEffect(()=>{
+        const checkAuth = async()  =>{
+            const isauth = await isAuthenticated()
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0'); // bulan dimulai dari 0
+            const dd = String(today.getDate()).padStart(2, '0');
+    
+            const formatDate = `${yyyy}-${mm}-${dd}`;
+            if (isauth.status === 200) {
+                getOrderDetail().then((result)=>{
+                    const data = result.data
+                    const cuki = data.filter(product => product.created_at == formatDate && product.user == isauth.data.id)
+                    console.log(typeof cuki)
+                    console.log(cuki)
+                    const newData = Object.values(
+                        cuki.reduce((accum,item)=>{
+                            if(!accum[item.product.id]){
+                                accum[item.product.id] = {...item}
+                            }else{
+                                accum[item.product.id].quantity += item.quantity 
+                            }
+                            return accum
+                        },{})
+                    ) 
+                    setItems(newData)
+                })
+            }else{
+                navigate("/login")
+            }  
         }
+        checkAuth()
     },[])
     return(
         <Row className="row-items-sales" style={{height: '100%'}}>
@@ -26,10 +56,10 @@ function ItemsSales() {
                         <span>gula</span>
                         <span>10</span>
                     </div>
-                    {Array.from({ length: 15 }).map((_, index) => (
-                        <div className="item" key={index}>
-                            <span>gula</span>
-                            <span>12</span>
+                    {items.map((item) => (
+                        <div className="item" key={item.id}>
+                            <span>{item.product.name}</span>
+                            <span>{item.quantity}</span>
                         </div>
                     ))}
                 </div>

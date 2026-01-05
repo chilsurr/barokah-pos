@@ -2,6 +2,7 @@ import { Layout, Button,Input} from "antd";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom"
 import { postLogin } from '../utils/api';
+import "../style/login.css"
 const { Content} = Layout;
 
 function Login() {
@@ -51,7 +52,7 @@ function Login() {
                             placeholder="Password" 
                             onChange={(e) => setPassword(e.target.value)}
                     />
-                    <div className="login-buttons">
+                    <div className="login-button">
                         <Button className="btn-login" onClick={handleSubmit}>Login</Button>
                     </div>
                 </div>

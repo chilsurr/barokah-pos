@@ -119,14 +119,6 @@ function stock() {
                     </div>
                 </div>
                 <div className="stock">
-                    <div className="item">
-                        <span className="item-name">gula</span>
-                        <div className="item-child">
-                            <span>15.000</span>
-                            <span>17.500</span>
-                            <span>10</span>
-                        </div>
-                    </div>
                     {(dataSearch.length > 0 ? dataSearch : items).map((item) => (
                         <div className="item" key={item.id}>
                         <span className="item-name">{item.name}</span>

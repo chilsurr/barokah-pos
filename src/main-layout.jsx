@@ -1,7 +1,8 @@
 import { Outlet,useNavigate } from "react-router-dom";
 import { Layout, Button, Badge, Modal, Input ,DatePicker } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
-import { useState } from "react";
+import { useState,useEffect } from "react";
+import { isAuthenticated } from "./utils/auth";
 const {Header,Footer} = Layout
 
 
@@ -21,6 +22,22 @@ function MainLayout() {
     const onChange = (date, dateString) => {
         console.log(date, dateString);
     };
+    
+    const [isLogin,setIsLogin] = useState("false")
+    useEffect(()=>{
+        const checkAuth = async() =>{
+            const isAuth = await isAuthenticated()
+            if(isAuth.status === 200){
+                setIsLogin('true')
+                console.log('login true')
+            }else{
+                setIsLogin('false')
+                console.log('login false')
+            }
+        }
+        checkAuth()
+    })
+
     return(
         <>
             <Modal
@@ -47,7 +64,7 @@ function MainLayout() {
                 <Layout className="main-content">
                     <Outlet/>
                 </Layout>
-                <Footer className="footer">
+                <Footer className="footer" data-login={isLogin}>
                     <Button className="footer-btn" onClick={()=> Navigate("/")}>HOME</Button>
                     <Button className="footer-btn" onClick={()=> Navigate("items-sales/")}>ITEMS SALES</Button>
                     <Badge className="custom-badge" count={5} offset={[-20, 4]}>

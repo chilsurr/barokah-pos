@@ -6,8 +6,7 @@ import { useState,useEffect } from "react";
 import { isAuthenticated } from "../utils/auth";
 import { postOrder,postOrderDetail, getProduct,putProduct } from "../utils/api";
 import { nanoid } from 'nanoid'
-import { Result } from "antd";
-import { Alert } from "antd";
+
 
 function Payment() {
     const navigate = useNavigate()
@@ -106,7 +105,7 @@ function Payment() {
             alert('uang customer tidak boleh kurang')
         }else{
             try {
-                 alert(`invoice: ${noBon} total: ${resultPayment.total}`)
+                //  alert(`invoice: ${noBon} total: ${resultPayment.total}`)
 
                  const dataorder = {
                      'invoice' : noBon,
@@ -117,14 +116,16 @@ function Payment() {
                 const result = await postOrder(dataorder)
                 const orderId = result.data.id
                 console.log(orderId)
-                cartPayment.map((item)=>{
+                cartPayment.map(async(item)=>{
                     const dataOrderDetail = {
-                        // 'order' : orderId,
-                        'product' : item.id,
+                        'order' : orderId,
+                        'product_detail' : item.id,
                         'quantity' : item.qty,
                         'price' : item.price * item.qty,
+                        'user' : dataUser.id
                     }
                     console.log(dataOrderDetail)
+                    const result = await postOrderDetail(dataOrderDetail)
                     getProduct().then((result) =>{
                         const data = result
                         const cuki = data.find( product => product.id == item.id )
@@ -135,12 +136,17 @@ function Payment() {
                             console.log('berhasil edit pak')
                         }
                     })
-                    const result = postOrderDetail(dataOrderDetail)
+
                 })
                 
-                // navigate("/")
+                navigate("/")
             } catch (error) {
-                console.log(error)
+                if (error.response) {
+                    console.log("STATUS:", error.response.status)
+                    console.log("DATA:", error.response.data)
+                } else {
+                    console.log("ERROR:", error.message)
+                }
             }
            
         }
