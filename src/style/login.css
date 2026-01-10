@@ -23,7 +23,24 @@
   justify-content: center;
 }
 
+.btn-back{
+  margin-top: 10px;
+  height: 40px;
+  width: 120px;
+  font-size: 16px;
+  font-weight: 500;
+  border-color: var(--primary-color) !important;
+  color: var(--primary-color) !important;
+
+}
+
+.btn-back:hover{
+  background-color: var(--primary-color) !important;
+  color: var(--accent-color-4) !important;
+}
+
 .btn-login{
+  margin-left: 10px;
   margin-top: 10px;
   height: 40px;
   width: 120px;

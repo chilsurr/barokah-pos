@@ -1,6 +1,6 @@
 import { Layout, Button,Input} from "antd";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"
+import { Navigate, useNavigate } from "react-router-dom"
 import { postLogin } from '../utils/api';
 import "../style/login.css"
 const { Content} = Layout;
@@ -53,6 +53,7 @@ function Login() {
                             onChange={(e) => setPassword(e.target.value)}
                     />
                     <div className="login-button">
+                        <Button className="btn-back" onClick={()=> navigate("/home-dashboard/")}>Back</Button>
                         <Button className="btn-login" onClick={handleSubmit}>Login</Button>
                     </div>
                 </div>

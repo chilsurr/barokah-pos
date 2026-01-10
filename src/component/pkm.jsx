@@ -5,20 +5,33 @@ import { useState, useEffect } from "react";
 import { getProduct } from "../utils/api";
 import { isAuthenticated } from "../utils/auth";
 
+import axios from "axios";
+
 import "../style/pkm.css"
 
 function Pkm() {
     const navigate = useNavigate()
     const [items, setItems] = useState([])
+    const [date,setDate] = useState({})
     useEffect(()=>{
         const checkAuth = async()  =>{
             const isauth = await isAuthenticated()
             console.log(isauth)
             if (isauth.status === 200) {
-                console.log("ini uda login pak")
+                const today = new Date();
+                const yyyy = today.getFullYear();
+                const mm = String(today.getMonth() + 1).padStart(2, '0'); // bulan dimulai dari 0
+                const dd = String(today.getDate()).padStart(2, '0');
+            
+                const formatDate = `${yyyy}${mm}${dd}`;
+                setDate(formatDate); 
+
                 getProduct().then((result)=>{
-                    console.log(result)
-                    setItems(result)
+                    const newdata = result.filter(item =>item.stock < 15 ).map(({user, ...result}) =>({
+                        ...result, 
+                        inputQty :''
+                    }))
+                    setItems(newdata)
                 })
             }else{
                 console.log('lewat sini pack')
@@ -54,7 +67,27 @@ function Pkm() {
         setCount(newCount);
     };
 
+ 
+    const downloadExcel = async () => {
+        const response = await axios.post(
+            "http://127.0.0.1:8000/api/export-excel/",
+            items,
+            {
+            responseType: "blob" // ⬅️ WAJIB
+            }
+        );
 
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `data_export-${date}.xlsx`);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        console.log('berhasil kayanya')
+    };
+
+    
     return(
         <>
             {selectedItem && (
@@ -94,6 +127,9 @@ function Pkm() {
                                     <Button className="acept-btn" onClick={()=>showModal(item)}>Acept</Button>
                                 </div>
                         })}
+                    </div>
+                    <div className="download-xlsx">
+                        <Button className="download-btn" onClick={()=> downloadExcel()}>DOWNLOAD PKM</Button>
                     </div>
                 </Col>
             </Row>

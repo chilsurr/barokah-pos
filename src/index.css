@@ -64,3 +64,135 @@
   width: 300px;
 }
 
+
+
+
+/* main dashboard */
+
+.container-dashboard{
+  height: 100vh;
+  background-color: #fff;
+}
+
+.main-dashboard{
+  padding: 10px;
+  display: flex;
+  height: 100%;
+}
+
+.sidebar-dashboard{
+  /* color: #fff; */
+  padding: 10px 15px;
+  width: 20%;
+  background-color: var(--accent-color-2);
+}
+
+.sidebar-header{
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  font-weight: 500;
+  border-bottom: 2px solid #a4a1a1;
+}
+
+.sidebar-header img{
+  width: 80px;
+  height: 80px;
+}
+
+.sidebar-section{
+  margin-top: 20px;
+}
+
+.sidebar-item{
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  margin: 10px 0;
+}
+
+.sidebar-item:hover{
+  cursor: pointer;
+  border-radius: 5px;
+  color: var(--primary-color);
+  background-color: #fff;
+  border: 1px solid var(--primary-color);
+}
+
+.sidebar-item img{
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.content-dashboard{
+  width: 100%;
+  /* background-color: var(--accent-color-3); */
+  margin-left: 10px;
+  /* border-radius: 10px 0 0 10px; */
+
+}
+
+.data-transaction{
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.data-section{
+  color: var(--accent-color-1);
+  padding: 10px 20px;
+  background-color: #073e09;
+  width: 300px;
+  height: 230px;
+  border-radius: 10px;
+}
+
+.data-section span{
+  font-size: 18px;
+}
+
+.growth{
+  margin-bottom: 5px;
+}
+
+.total-data{
+  font-size: 40px;
+  font-weight: 500;
+  margin: 10px 0;
+}
+
+
+.list-items{
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.list-item{
+  display: flex;
+  justify-content: space-between;
+}
+
+.list-item-growth{
+  padding: 10px;
+  width: 40%;
+  background-color: aqua;
+}
+.list-item-disgrowth{
+  padding: 10px;
+  width: 40%;
+  background-color: rgb(255, 145, 0);
+}
+
+.chart-items{
+  display: flex;
+  justify-content: space-around;
+}
+
+/* .chart-item-growth{
+  display: flex;
+  justify-content: center;
+} */

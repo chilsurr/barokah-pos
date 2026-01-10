@@ -19,7 +19,7 @@
 }
 
 .pkm-items{
-    height: 85%;
+    height: 80%;
     margin-top: 15px;
     background-color: var(--accent-color-4);
     padding: 10px 25px;
@@ -89,8 +89,24 @@
     border-color: var(--primary-color) !important;
     color: var(--primary-color) !important; 
 }
-.counter-btn:active{
+/* .counter-btn:active{
     box-shadow: 0 0 0 3px rgba(0, 200, 0, 0.4) !important; 
     border-color: #2E7D32 !important;
+} */
+
+
+
+.download-btn{
+    align-self: center;
+    margin: 20px;
+    width: 160px ;
+    height: 45px ;
+    font-weight: 500;
+    background-color: var(--primary-color);
+    color: var(--accent-color-4);
 }
 
+.download-btn:hover{
+    border-color: var(--primary-color) !important;
+    color: var(--primary-color) !important;
+}
