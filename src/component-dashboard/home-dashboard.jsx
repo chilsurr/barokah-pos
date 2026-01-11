@@ -1,6 +1,7 @@
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
 import { Line, LineChart } from 'recharts';
 import { DatePicker  } from "antd"
+import CountUp from "react-countup";
 
 function HomeDashboard() {
 
@@ -63,6 +64,7 @@ function HomeDashboard() {
     const onChange = (date, dateString) => {
         console.log(date, dateString);
     }
+    const Count = CountUp.default
     return(
         <>
             <div className="date-input-dashboard">
@@ -71,65 +73,73 @@ function HomeDashboard() {
                 {/* <Button className="btn-process-dashboard">Process</Button> */}
                 </div>
                 <div className="chart">
-                <BarChart
-                    style={{
-                        width: '100%', maxWidth:'100%', maxHeight:'50vh', aspectRatio:1.618,margin:'10px 0'
-                    }}
-                    responsive
-                    data={data}
-                    margin={{
-                    top: 5,
-                    right: 0,
-                    left: 0,
-                    bottom: 5,
-                    }}
-                >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis width="auto" />
-                    {/* <Tooltip /> */}
-                    <Legend />
-                    <Bar dataKey="AVC" fill="#2E7D32" activeBar={{ fill: 'pink', stroke: 'blue' }} radius={[5, 5, 0, 0]} />
-                    <Bar dataKey="ITM" fill="#66BB6A" activeBar={{ fill: 'gold', stroke: 'purple' }} radius={[5, 5, 0, 0]} />
-                    <Bar dataKey="STD" fill="#43A047" activeBar={{ fill: 'pink', stroke: 'blue' }} radius={[5, 5, 0, 0]} />
-                </BarChart> 
+                        <BarChart
+                            style={{
+                                width: '100%', maxWidth:'100%', maxHeight:'50vh', aspectRatio:1.618,margin:'10px 0'
+                            }}
+                            responsive
+                            data={data}
+                            margin={{
+                            top: 5,
+                            right: 0,
+                            left: 0,
+                            bottom: 5,
+                            }}
+                        >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="name" />
+                            <YAxis width="auto" />
+                            {/* <Tooltip /> */}
+                            <Legend />
+                            <Bar dataKey="AVC" fill="#2E7D32" animationDuration={1000} activeBar={{ fill: 'pink', stroke: 'blue' }} radius={[5, 5, 0, 0]} />
+                            <Bar dataKey="ITM" fill="#66BB6A" animationDuration={1000} activeBar={{ fill: 'gold', stroke: 'purple' }} radius={[5, 5, 0, 0]} />
+                            <Bar dataKey="STD" fill="#43A047" animationDuration={1000} activeBar={{ fill: 'pink', stroke: 'blue' }} radius={[5, 5, 0, 0]} />
+                        </BarChart> 
+
                 </div>
                 <div className="data-transaction">
                 <div className="data-section">
                     <span>Total STD</span>
                     
-                    <div className="total-data"> 388
-                    {/* <CountUp end={4200} duration={2} separator="." /> */}
+                    <div className="total-data"> 
+                        <Count end={148} duration={1.3} separator="." />
                     </div>
                     <div className="growth">5 increased from last month</div>
-                    <LineChart
-                    style={{ width: '100%', maxWidth: '300px', maxHeight: '100px', aspectRatio: 1.618 }}
-                    data={growth_data}
-                    >
-                    <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
-                    </LineChart>
+                        <LineChart
+                        style={{ width: '100%', maxWidth: '300px', maxHeight: '100px', aspectRatio: 1.618 }}
+                        data={growth_data}
+                        >
+                            <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
+                        </LineChart>
+
                 </div>
                 <div className="data-section">
                     <span>Total AVC</span>
-                    <div className="total-data">36.000</div>
+                    <div className="total-data">
+                        <Count end={36000} duration={1.3} separator="." />
+                    </div>
                     <div className="growth">5 increased from last month</div>
-                    <LineChart
-                    style={{ width: '100%', maxWidth: '300px', maxHeight: '100px', aspectRatio: 1.618 }}
-                    data={growth_data}
-                    >
-                    <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
-                    </LineChart>
+                        <LineChart
+                        style={{ width: '100%', maxWidth: '300px', maxHeight: '100px', aspectRatio: 1.618 }}
+                        data={growth_data}
+                        >
+                            <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
+                        </LineChart>
+
                 </div>
                 <div className="data-section">
                     <span>Total ITM</span>
-                    <div className="total-data">187</div>
+                    <div className="total-data">
+                        <Count end={253} duration={1.3} separator="." />
+                    </div>
                     <div className="growth">5 increased from last month</div>
-                    <LineChart
-                    style={{ width: '100%', maxWidth: '300px', maxHeight: '100px', aspectRatio: 1.618 }}
-                    data={growth_data}
-                    >
-                    <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
-                    </LineChart>
+                        <LineChart
+                        style={{ width: '100%', maxWidth: '300px', maxHeight: '100px', aspectRatio: 1.618 }}
+                        data={growth_data}
+                        >
+                            <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
+                        </LineChart>
+
                 </div>
             </div>
         </>

@@ -1,5 +1,7 @@
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { Cell, Pie, PieChart } from 'recharts';
 import { DatePicker,Layout  } from "antd"
+import CountUp from "react-countup";
 
 const RADIAN = Math.PI / 180;
 const COLORS1 = [
@@ -16,17 +18,16 @@ const COLORS1 = [
 
 ];
 const COLORS2 = [
-  "#E65100", // oranye gelap 1
-  "#EF6C00", // oranye gelap 2
-  "#F57C00", // oranye medium 1
-  "#FB8C00", // oranye medium 2
-  "#FF9800", // oranye medium 3
-  "#FFA726", // oranye terang 1
-  "#FFB74D", // oranye terang 2
-  "#FFCA28", // kuning-oranye 1
-  "#FFD54F", // kuning-oranye 2
-  "#FFE082"  // kuning-oranye paling terang
-
+   "#004D40", // biru-hijau gelap 1
+    "#00695C", // biru-hijau gelap 2
+    "#00796B", // biru-hijau medium 1
+    "#00897B", // biru-hijau medium 2
+    "#009688", // biru-hijau medium 3 (teal)
+    "#26A69A", // biru-hijau terang 1
+    "#4DB6AC", // biru-hijau terang 2
+    "#80CBC4", // biru-hijau muda 1
+    "#B2DFDB", // biru-hijau muda 2
+    "#E0F2F1"  // biru-hijau paling terang
 ];
 
 
@@ -54,38 +55,99 @@ function ItemsDashboard( { isAnimationActive = true }) {
     }
 
     const itemsgrowth = [
-        { name: "Indomie Goreng", value: 1200 },
-        { name: "Aqua Botol 600ml", value: 980 },
-        { name: "Teh Kotak Sosro", value: 860 },
-        { name: "Susu UHT", value: 740 },
-        { name: "Roti Tawar", value: 620 },
-        { name: "Gula Pasir", value: 580 },
-        { name: "Telur Ayam", value: 540 },
-        { name: "Beras 5kg", value: 430 },
-        { name: "Minyak Goreng", value: 390 },
-        { name: "Snack Chitato", value: 310 },
+        { name: "Indomie Goreng", value: 1200 ,index:1},
+        { name: "Aqua Botol 600ml", value: 980 ,index:2},
+        { name: "Teh Kotak Sosro", value: 860 ,index:3},
+        { name: "Susu UHT", value: 740 ,index:4},
+        { name: "Roti Tawar", value: 620 ,index:5},
+        { name: "Gula Pasir", value: 580 ,index:6},
+        { name: "Telur Ayam", value: 540 ,index:7},
+        { name: "Beras 5kg", value: 430 ,index:8},
+        { name: "Minyak Goreng", value: 390 ,index:9},
+        { name: "Snack Chitato", value: 310 ,index:10},
     ];
 
     const itemsDisgrowth = [
-        { name: "Snack Lays", value: 150 },
-        { name: "Susu Kental Manis", value: 120 },
-        { name: "Teh Pucuk", value: 110 },
-        { name: "Roti Manis", value: 90 },
-        { name: "Permen Mint", value: 80 },
-        { name: "Minyak Goreng 1L", value: 75 },
-        { name: "Biskuit Marie", value: 60 },
-        { name: "Cokelat Batangan", value: 50 },
-        { name: "Gula Pasir", value: 45 },
-        { name: "Air Mineral Gelas", value: 40 },
+        { name: "Snack Lays", value: 150 ,index:1},
+        { name: "Susu Kental Manis", value: 120 ,index:2},
+        { name: "Teh Pucuk", value: 110 ,index:3},
+        { name: "Roti Manis", value: 90 ,index:4},
+        { name: "Permen Mint", value: 80 ,index:5},
+        { name: "Minyak Goreng 1L", value: 75 ,index:6},
+        { name: "Biskuit Marie", value: 60 ,index:7},
+        { name: "Cokelat Batangan", value: 50 ,index:8},
+        { name: "Gula Pasir", value: 45 ,index:9},
+        { name: "Air Mineral Gelas", value: 40 ,index:10},
     ];
 
+
+    const Count = CountUp.default
     return(
          <>
             <div className="date-input-dashboard">
                 <DatePicker className="close-input" onChange={onChange} />
                 <DatePicker className="close-input" onChange={onChange} />
-                <Layout>
-                    <div className="list-items">
+                <div className="bar-chart">
+                    <BarChart
+                        style={{
+                            width: '40%', maxWidth:'50%', maxHeight:'40vh', aspectRatio:1.618,margin:'10px 0'
+                        }}
+                        responsive
+                        data={itemsgrowth}
+                        margin={{
+                            top: 5,
+                            right: 0,
+                            left: 0,
+                            bottom: 5,
+                        }}
+                    >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="index" />
+                        <YAxis width="auto" />
+                        {/* <Tooltip /> */}
+                        <Legend />
+                        <Bar dataKey="value" fill="#2E7D32" animationDuration={1000} activeBar={{ fill: 'pink', stroke: 'blue' }} radius={[5, 5, 0, 0]} />
+                    </BarChart> 
+                    <BarChart
+                        style={{
+                            width: '40%', maxWidth:'50%', maxHeight:'40vh', aspectRatio:1.618, margin:'10px 0'
+                        }}
+                        responsive
+                        data={itemsDisgrowth}
+                        margin={{
+                            top: 5,
+                            right: 0,
+                            left: 0,
+                            bottom: 5,
+                        }}
+                    >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="index" />
+                        <YAxis width="auto" />
+                        {/* <Tooltip /> */}
+                        <Legend />
+                        <Bar dataKey="value" fill="#00695C" animationDuration={1000} activeBar={{ fill: 'pink', stroke: 'blue' }} radius={[5, 5, 0, 0]} />
+                    </BarChart> 
+
+                </div>
+                <div className="pie-chart">
+                    <div className="growth">
+                        <div className="chart-item-growth" style={{ width: '300px', height: 300 }}>
+                            <PieChart style={{ width: '100%', maxWidth: '350px', maxHeight: '50vh', aspectRatio: 1 }} responsive>
+                                <Pie
+                                    data={itemsgrowth}
+                                    labelLine={false}
+                                    label={renderCustomizedLabel}
+                                    fill="#8884d8"
+                                    dataKey="value"
+                                    isAnimationActive={isAnimationActive}
+                                >
+                                    {itemsgrowth.map((entry, index) => (
+                                    <Cell key={`cell-${entry.name}`} fill={COLORS1[index % COLORS1.length]} />
+                                    ))}
+                                </Pie>
+                            </PieChart>
+                        </div>
                         <div className="list-item-growth">
                             {itemsgrowth.map((item,index)=>(
                                 <div className='list-item' key={item.name + index}>
@@ -93,6 +155,24 @@ function ItemsDashboard( { isAnimationActive = true }) {
                                     <span>{item.value}</span>
                                 </div>
                             ))}
+                        </div>
+                    </div>
+                    <div className="disgrowth">
+                        <div className="chart-item-disgrowth" style={{ width: '300px', height: 300}}>
+                            <PieChart style={{ width: '100%', maxWidth: '350px', maxHeight: '50vh', aspectRatio: 1 }} responsive>
+                                <Pie
+                                    data={itemsDisgrowth}
+                                    labelLine={false}
+                                    label={renderCustomizedLabel}
+                                    fill="#8884d8"
+                                    dataKey="value"
+                                    isAnimationActive={isAnimationActive}
+                                >
+                                    {itemsDisgrowth.map((entry, index) => (
+                                    <Cell key={`cell-${entry.name}`} fill={COLORS2[index % COLORS2.length]} />
+                                    ))}
+                                </Pie>
+                            </PieChart>
                         </div>
                         <div className="list-item-disgrowth" >
                             {itemsDisgrowth.map((item,index)=>(
@@ -102,40 +182,6 @@ function ItemsDashboard( { isAnimationActive = true }) {
                                 </div>
                             ))}
                         </div>
-                    </div>
-                </Layout>
-                <div className="chart-items">
-                    <div className="chart-item-growth" style={{ width: '100%', height: 300 }}>
-                        <PieChart style={{ width: '100%', maxWidth: '400px', maxHeight: '50vh', aspectRatio: 1 }} responsive>
-                            <Pie
-                                data={itemsgrowth}
-                                labelLine={false}
-                                label={renderCustomizedLabel}
-                                fill="#8884d8"
-                                dataKey="value"
-                                isAnimationActive={isAnimationActive}
-                            >
-                                {itemsgrowth.map((entry, index) => (
-                                <Cell key={`cell-${entry.name}`} fill={COLORS1[index % COLORS1.length]} />
-                                ))}
-                            </Pie>
-                        </PieChart>
-                    </div>
-                    <div className="chart-item-disgrowth" style={{ width: '100%', height: 300 }}>
-                        <PieChart style={{ width: '100%', maxWidth: '400px', maxHeight: '50vh', aspectRatio: 1 }} responsive>
-                            <Pie
-                                data={itemsDisgrowth}
-                                labelLine={false}
-                                label={renderCustomizedLabel}
-                                fill="#8884d8"
-                                dataKey="value"
-                                isAnimationActive={isAnimationActive}
-                            >
-                                {itemsDisgrowth.map((entry, index) => (
-                                <Cell key={`cell-${entry.name}`} fill={COLORS2[index % COLORS2.length]} />
-                                ))}
-                            </Pie>
-                        </PieChart>
                     </div>
                 </div>
             </div>

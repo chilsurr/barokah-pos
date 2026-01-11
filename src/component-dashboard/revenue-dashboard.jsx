@@ -1,6 +1,7 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { Line, LineChart } from 'recharts';
 import { DatePicker  } from "antd"
+import CountUp from "react-countup";
 
 function RevenueDashboard() {
 
@@ -63,6 +64,8 @@ function RevenueDashboard() {
     const onChange = (date, dateString) => {
         console.log(date, dateString);
     }
+
+    const Count = CountUp.default
     return(
         <>
             <div className="date-input-dashboard">
@@ -89,46 +92,50 @@ function RevenueDashboard() {
                     <YAxis width="auto" />
                     {/* <Tooltip /> */}
                     <Legend />
-                    <Bar dataKey="HPP" fill="#2E7D32" activeBar={{ fill: 'pink', stroke: 'blue' }} radius={[5, 5, 0, 0]} />
-                    <Bar dataKey="INCOME" fill="#66BB6A" activeBar={{ fill: 'gold', stroke: 'purple' }} radius={[5, 5, 0, 0]} />
-                    <Bar dataKey="PL" fill="#43A047" activeBar={{ fill: 'pink', stroke: 'blue' }} radius={[5, 5, 0, 0]} />
+                    <Bar dataKey="HPP" fill="#2E7D32" animationDuration={1000} activeBar={{ fill: 'pink', stroke: 'blue' }} radius={[5, 5, 0, 0]} />
+                    <Bar dataKey="INCOME" fill="#66BB6A" animationDuration={1000} activeBar={{ fill: 'gold', stroke: 'purple' }} radius={[5, 5, 0, 0]} />
+                    <Bar dataKey="PL" fill="#43A047" animationDuration={1000} activeBar={{ fill: 'pink', stroke: 'blue' }} radius={[5, 5, 0, 0]} />
                 </BarChart> 
                 </div>
                 <div className="data-transaction">
                 <div className="data-section">
                     <span>Total HPP</span>
                     
-                    <div className="total-data"> 52.000.000
-                    {/* <CountUp end={4200} duration={2} separator="." /> */}
+                    <div className="total-data">
+                        <Count end={52000000} duration={1.3} separator="." />
                     </div>
                     <div className="growth">5 increased from last month</div>
                     <LineChart
                     style={{ width: '100%', maxWidth: '300px', maxHeight: '100px', aspectRatio: 1.618 }}
                     data={growth_data}
                     >
-                    <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
+                        <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
                     </LineChart>
                 </div>
                 <div className="data-section">
                     <span>Total INCOME</span>
-                    <div className="total-data">76.000.000</div>
+                    <div className="total-data">
+                        <Count end={76000000} duration={1.3} separator="." />
+                    </div>
                     <div className="growth">5 increased from last month</div>
                     <LineChart
                     style={{ width: '100%', maxWidth: '300px', maxHeight: '100px', aspectRatio: 1.618 }}
                     data={growth_data}
                     >
-                    <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
+                        <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
                     </LineChart>
                 </div>
                 <div className="data-section">
                     <span>Total PL</span>
-                    <div className="total-data">24.000.000</div>
+                    <div className="total-data">
+                        <Count end={24000000} duration={1.3} separator="." />
+                    </div>
                     <div className="growth">5 increased from last month</div>
                     <LineChart
                     style={{ width: '100%', maxWidth: '300px', maxHeight: '100px', aspectRatio: 1.618 }}
                     data={growth_data}
                     >
-                    <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
+                        <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
                     </LineChart>
                 </div>
             </div>
