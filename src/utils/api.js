@@ -26,6 +26,11 @@ export const checkAuth = async() =>{
     return user;
 }
 
+export const getOrders = async() =>{
+    const order = await axiosInstance.get('/order/')
+    return order
+}
+
 export const getOrderDetail = async() =>{
     const orderdetail = await axiosInstance.get('/orderdetail/',)
     return orderdetail

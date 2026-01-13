@@ -2,6 +2,7 @@ import { Outlet,useNavigate } from "react-router-dom";
 import { Layout, Button, Badge, Modal, Input ,DatePicker } from "antd";
 import { useState,useEffect } from "react";
 import { isAuthenticated } from "./utils/auth";
+import { getOrders } from "./utils/api";
 
 const {Header,Footer} = Layout
 
@@ -12,7 +13,22 @@ function MainLayout() {
     const showModal = () => {
         setIsModalOpen(true);
     };
-    const handleOk = () => {
+
+    const [date,setDate] = useState({date:"",time:""})
+    const handleOk = async() => {
+
+        const std = await getOrders().then((result) =>{
+            return result.data.filter((item) => item.created_at.slice(0, 10) === date)
+        })
+
+
+
+        const realData = {
+            "std" : std.length,
+            "avc" : 12000
+        }
+
+        alert('masuk pak')
         setIsModalOpen(false);
     };
     const handleCancel = () => {
@@ -30,6 +46,13 @@ function MainLayout() {
             if(isAuth.status === 200){
                 setIsLogin('true')
                 console.log('login true')
+                const today = new Date();
+                const yyyy = today.getFullYear();
+                const mm = String(today.getMonth() + 1).padStart(2, '0'); // bulan dimulai dari 0
+                const dd = String(today.getDate()).padStart(2, '0');
+                const formatDate = `${yyyy}-${mm}-${dd}`;
+                setDate(formatDate)
+        
             }else{
                 setIsLogin('false')
                 console.log('login false')
@@ -52,7 +75,7 @@ function MainLayout() {
             >
                 <div className="form-close">
                     <DatePicker className="close-input" onChange={onChange} />
-                    <Input className="close-input" placeholder="Basic usage" />
+                    <Input className="close-input" placeholder="input username" />
                     <Input.Password className="close-input" placeholder="input password" />
                 </div>
             </Modal>
