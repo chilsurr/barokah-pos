@@ -3,53 +3,28 @@ import { Line, LineChart } from 'recharts';
 import { DatePicker  } from "antd"
 import CountUp from "react-countup";
 
+import { getClosing } from '../utils/api';
+import { useState,useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+// import { isAuthenticated } from "utils/auth";
+import { isAuthenticated } from '../utils/auth';
+
 function RevenueDashboard() {
-
-    const data = [
-        {
-            name: 'Jan',
-            HPP: 15000000,
-            INCOME: 20000000,
-            PL: 5000000,
-        },
-        {
-            name: 'Feb',
-            HPP: 38000000,
-            INCOME: 40000000,
-            PL: 2000000,
-        },
-        {
-            name: 'Mar',
-            HPP: 26000000,
-            INCOME: 34000000,
-            PL: 8000000,
-        },
-        {
-            name: 'Apr',
-            HPP: 25000000,
-            INCOME: 37000000,
-            PL: 12000000,
-        },
-        {
-            name: 'Mei',
-            HPP: 32000000,
-            INCOME: 36000000,
-            PL: 4000000,
-        },
-        {
-            name: 'Jun',
-            HPP: 22000000,
-            INCOME: 39000000,
-            PL: 17000000,
-        },
-        {
-            name: 'Jul',
-            HPP: 26000000,
-            INCOME: 42000000,
-            PL: 16000000,
-        },
+    const navigate = useNavigate()
+    const bulan = [
+        "Januari",
+        "Februari",
+        "Maret",
+        "April",
+        "Mei",
+        "Juni",
+        "Juli",
+        "Agustus",
+        "September",
+        "Oktober",
+        "November",
+        "Desember"
     ];
-
 
     const growth_data = [
         { pv: 30 },
@@ -60,6 +35,55 @@ function RevenueDashboard() {
         { pv: 340 },
         { pv: 160 },
     ];
+
+
+    const [data,setData] = useState({
+            inc : 0,
+            hpp : 0,
+            prf : 0,
+        })
+        const [newData, setNewData] = useState([]) 
+        const dataChartBar = newData.map((item,index) =>({
+                name: bulan[index],
+                INC: item.inc,
+                HPP: item.hpp,
+                PRF: item.prf,
+        }))
+
+        const dataLineInc = newData.map((item) =>({
+            value : item.inc
+        }))
+        const dataLineHpp = newData.map((item) =>({
+            value : item.hpp
+        }))
+        const dataLinePrf = newData.map((item) =>({
+            value : item.prf
+        }))
+    
+        useEffect(()=>{
+            const checkAuth = async()  =>{
+                const isauth = await isAuthenticated()
+                if (isauth.status === 200) {
+                    getClosing().then((result) => {
+                        setNewData(result.data)
+                        console.log(result.data)
+                        const inc = result.data.reduce((total,item) => total + item.inc,0)
+                        const hpp = result.data.reduce((total,item) => total + item.hpp,0)
+                        const prf = result.data.reduce((total,item) => total + item.prf,0)
+    
+                        setData({
+                            inc : inc,
+                            hpp : hpp,
+                            prf : prf,
+                        })
+                    })
+        
+                }else{
+                    navigate("/login/")
+                }  
+            }
+            checkAuth()
+        },[]) 
 
     const onChange = (date, dateString) => {
         console.log(date, dateString);
@@ -79,7 +103,7 @@ function RevenueDashboard() {
                         width: '100%', maxWidth:'100%', maxHeight:'50vh', aspectRatio:1.618,margin:'10px 0'
                     }}
                     responsive
-                    data={data}
+                    data={dataChartBar}
                     margin={{
                     top: 5,
                     right: 0,
@@ -93,8 +117,8 @@ function RevenueDashboard() {
                     {/* <Tooltip /> */}
                     <Legend />
                     <Bar dataKey="HPP" fill="#2E7D32" animationDuration={1000} activeBar={{ fill: 'pink', stroke: 'blue' }} radius={[5, 5, 0, 0]} />
-                    <Bar dataKey="INCOME" fill="#66BB6A" animationDuration={1000} activeBar={{ fill: 'gold', stroke: 'purple' }} radius={[5, 5, 0, 0]} />
-                    <Bar dataKey="PL" fill="#43A047" animationDuration={1000} activeBar={{ fill: 'pink', stroke: 'blue' }} radius={[5, 5, 0, 0]} />
+                    <Bar dataKey="INC" fill="#66BB6A" animationDuration={1000} activeBar={{ fill: 'gold', stroke: 'purple' }} radius={[5, 5, 0, 0]} />
+                    <Bar dataKey="PRF" fill="#43A047" animationDuration={1000} activeBar={{ fill: 'pink', stroke: 'blue' }} radius={[5, 5, 0, 0]} />
                 </BarChart> 
                 </div>
                 <div className="data-transaction">
@@ -107,9 +131,9 @@ function RevenueDashboard() {
                     <div className="growth">5 increased from last month</div>
                     <LineChart
                     style={{ width: '100%', maxWidth: '300px', maxHeight: '100px', aspectRatio: 1.618 }}
-                    data={growth_data}
+                    data={dataLineHpp}
                     >
-                        <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
+                        <Line type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={2} />
                     </LineChart>
                 </div>
                 <div className="data-section">
@@ -120,9 +144,9 @@ function RevenueDashboard() {
                     <div className="growth">5 increased from last month</div>
                     <LineChart
                     style={{ width: '100%', maxWidth: '300px', maxHeight: '100px', aspectRatio: 1.618 }}
-                    data={growth_data}
+                    data={dataLineInc}
                     >
-                        <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
+                        <Line type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={2} />
                     </LineChart>
                 </div>
                 <div className="data-section">
@@ -133,9 +157,9 @@ function RevenueDashboard() {
                     <div className="growth">5 increased from last month</div>
                     <LineChart
                     style={{ width: '100%', maxWidth: '300px', maxHeight: '100px', aspectRatio: 1.618 }}
-                    data={growth_data}
+                    data={dataLinePrf}
                     >
-                        <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
+                        <Line type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={2} />
                     </LineChart>
                 </div>
             </div>

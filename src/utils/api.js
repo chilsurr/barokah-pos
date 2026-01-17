@@ -21,6 +21,11 @@ export const postExcel = async(data) =>{
     return excel
 }
 
+export const postClosing = async(data) =>{
+    // const closing = await axiosInstance.post('/closing/', data)
+    return await axiosInstance.post('/closing/', data)
+}
+
 export const checkAuth = async() =>{
     const user = await axiosInstance.get('/check-auth/',);
     return user;
@@ -39,6 +44,11 @@ export const getOrderDetail = async() =>{
 export const getProduct = async() =>{
     const items = await axiosInstance.get("/products/",);
     return items.data
+}
+
+
+export const getClosing = async() =>{
+    return await axiosInstance.get('/closing/')
 }
 
 

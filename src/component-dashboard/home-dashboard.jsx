@@ -2,54 +2,31 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'rech
 import { Line, LineChart } from 'recharts';
 import { DatePicker  } from "antd"
 import CountUp from "react-countup";
+import { getClosing } from '../utils/api';
+import { useState,useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+// import { isAuthenticated } from "utils/auth";
+import { isAuthenticated } from '../utils/auth';
+
 
 function HomeDashboard() {
-
-    const data = [
-        {
-            name: 'Jan',
-            STD: 4200,
-            AVC: 3100,
-            ITM: 8900,
-        },
-        {
-            name: 'Feb',
-            STD: 3800,
-            AVC: 2900,
-            ITM: 8900,
-        },
-        {
-            name: 'Mar',
-            STD: 4600,
-            AVC: 3400,
-            ITM: 8900,
-        },
-        {
-            name: 'Apr',
-            STD: 5000,
-            AVC: 3700,
-            ITM: 8900,
-        },
-        {
-            name: 'Mei',
-            STD: 4800,
-            AVC: 3600,
-            ITM: 8900,
-        },
-        {
-            name: 'Jun',
-            STD: 5200,
-            AVC: 3900,
-            ITM: 8900,
-        },
-        {
-            name: 'Jul',
-            STD: 5600,
-            AVC: 4200,
-            ITM: 8900,
-        },
+    const navigate = useNavigate()
+    const bulan = [
+        "Januari",
+        "Februari",
+        "Maret",
+        "April",
+        "Mei",
+        "Juni",
+        "Juli",
+        "Agustus",
+        "September",
+        "Oktober",
+        "November",
+        "Desember"
     ];
-
+    
+    
 
     const growth_data = [
         { pv: 280 },
@@ -65,6 +42,48 @@ function HomeDashboard() {
         console.log(date, dateString);
     }
     const Count = CountUp.default
+
+    const [dataRender,setDataRender] = useState({
+        std : 0,
+        avc : 0,
+        itm : 0,
+    })
+    const [newData, setNewData] = useState([]) 
+    const data = newData.map((item,index) =>({
+            name: bulan[index],
+            STD: item.std,
+            AVC: item.avc,
+            ITM: item.itm,
+    }))
+
+    console.log(data)
+    useEffect(()=>{
+        const checkAuth = async()  =>{
+            const isauth = await isAuthenticated()
+            if (isauth.status === 200) {
+                getClosing().then((result) => {
+                    setNewData(result.data)
+                    console.log(result.data)
+                    const std = result.data.reduce((total,item) => total + item.std,0)
+                    const avc = result.data.reduce((total,item) => total + item.avc,0)
+                    const itm = result.data.reduce((total,item) => total + item.itm,0)
+
+                    setDataRender({
+                        std : std,
+                        avc : avc,
+                        itm : itm,
+                    })
+                })
+    
+            }else{
+                navigate("/login/")
+            }  
+        }
+        checkAuth()
+    },[]) 
+    
+    console.log(dataRender)
+
     return(
         <>
             <div className="date-input-dashboard">
@@ -73,6 +92,7 @@ function HomeDashboard() {
                 {/* <Button className="btn-process-dashboard">Process</Button> */}
                 </div>
                 <div className="chart">
+
                         <BarChart
                             style={{
                                 width: '100%', maxWidth:'100%', maxHeight:'50vh', aspectRatio:1.618,margin:'10px 0'

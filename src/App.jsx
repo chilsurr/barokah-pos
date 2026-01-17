@@ -1,5 +1,7 @@
 import { BrowserRouter as Router,Routes,Route } from "react-router-dom";
 
+import { Layout } from "antd"
+
 import MainLayout from './main-layout'
 import MainDashboard from "./main-dashboard";
 import Home from "./component/home";
@@ -7,8 +9,7 @@ import Payment from "./component/payment";
 import ItemsSales from "./component/items-sales";
 import Pkm from "./component/pkm";
 import Stock from "./component/stock";
-import ReportSales from "./component/report-sales";
-import Login from "./component/login";
+import Login from "./login";
 
 import HomeDashboard from "./component-dashboard/home-dashboard";
 import RevenueDashboard from "./component-dashboard/revenue-dashboard";
@@ -24,9 +25,8 @@ function App() {
           <Route path="items-sales/" element={<ItemsSales/>}/>
           <Route path="pkm/" element={<Pkm/>}/>
           <Route path="stock/" element={<Stock/>}/>
-          <Route path="report-sales/" element={<ReportSales/>}/>
-          <Route path="login/" element={<Login/>}/>
         </Route>
+        <Route path="login/" element={<Login/>}/>
         <Route element={<MainDashboard/>}>
           <Route path="home-dashboard/" element={<HomeDashboard/>}/>
           <Route path="revenue-dashboard/" element={<RevenueDashboard/>}/>

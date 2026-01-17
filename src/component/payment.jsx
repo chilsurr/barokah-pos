@@ -220,7 +220,7 @@ function Payment() {
             <div className="payment-top">
                 <div className="payment-total">
                     <span>TOTAL</span>
-                    <div className="amount-total">{isProcesed?resultPayment.change :totalCart * -1}</div>
+                    <div className="amount-total">{isProcesed ? resultPayment.change :totalCart * -1}</div>
                 </div>
                 <div className="payment-input">
                     <div className="money-preset">
