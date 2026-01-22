@@ -12,6 +12,7 @@ import "../style/pkm.css"
 function Pkm() {
     const navigate = useNavigate()
     const [items, setItems] = useState([])
+    console.log(items)
     const [date,setDate] = useState({})
     useEffect(()=>{
         const checkAuth = async()  =>{
@@ -27,10 +28,18 @@ function Pkm() {
                 setDate(formatDate); 
 
                 getProduct().then((result)=>{
-                    const newdata = result.filter(item =>item.stock < 15 ).map(({user, ...result}) =>({
-                        ...result, 
-                        inputQty :''
+                    const newdata = result.filter(item =>item.stock < 10 ).map(({user, stock, ...rest})=>({
+                        ...rest,
+                        initialstock : stock,
+                        stock : 0
+
                     }))
+                    // console.log(newdata)
+                    // .map(({user, ...result}) =>({
+                    //     ...result, 
+                    //     inputQty :''
+                    // }))
+
                     setItems(newdata)
                 })
             }else{
@@ -69,6 +78,7 @@ function Pkm() {
 
  
     const downloadExcel = async () => {
+        console.log(items)
         const response = await axios.post(
             "http://127.0.0.1:8000/api/export-excel/",
             items,
@@ -121,7 +131,7 @@ function Pkm() {
                         <Input className="value-input"/>
                     </div>
                     <div className="pkm-items">
-                        {items.filter(item =>item.stock < 15 ).map(item=>{     
+                        {items.filter(item =>item.stock < 10 ).map(item=>{     
                             return <div className="pkm-item">
                                     <span>{item.name}</span>
                                     <Button className="acept-btn" onClick={()=>showModal(item)}>Acept</Button>

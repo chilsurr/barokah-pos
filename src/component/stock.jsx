@@ -33,12 +33,15 @@ function stock() {
             const isXlsx = 
                 file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
                 file.type === 'application/vnd.ms-excel';
+
+            console.log(isXlsx)
+
             if (!isXlsx) {
                 message.error(`${file.name} is not excel file`);
                 return isXlsx || Upload.LIST_IGNORE;
             }else{
                 postExcel(file)
-                alert("upload berhasil pak")
+                // alert("upload berhasil pak")
                 // return false;
             }
         },

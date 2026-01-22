@@ -23,12 +23,17 @@ function ItemsSales() {
                     const data = result.data
                     const cuki = data.filter(product => product.created_at == formatDate && product.user == isauth.data.id)
                     console.log(typeof cuki)
+                    console.log(data)
                     console.log(cuki)
                     const newData = Object.values(
                         cuki.reduce((accum,item)=>{
+                            console.log(item.product.id)
+                            console.log(accum)
                             if(!accum[item.product.id]){
+                                console.log(accum[item.product.id])
                                 accum[item.product.id] = {...item}
                             }else{
+                                console.log(accum[item.product.id])
                                 accum[item.product.id].quantity += item.quantity 
                             }
                             return accum

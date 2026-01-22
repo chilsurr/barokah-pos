@@ -17,6 +17,11 @@ export const postOrderDetail = async(data) =>{
 export const postExcel = async(data) =>{
     const formData = new FormData()
     formData.append("excel-file",data)
+    for (let pair of formData.entries()) {
+        console.log(pair[0], pair[1]);
+        console.log(pair[1] instanceof File);
+    }
+
     const excel = axiosInstance.post("/upload-excel/", formData)
     return excel
 }

@@ -2,7 +2,7 @@ import { Outlet,useNavigate } from "react-router-dom";
 import { Layout, Button, Badge, Modal, Input ,DatePicker } from "antd";
 import { useState,useEffect } from "react";
 import { isAuthenticated } from "./utils/auth";
-import { getOrders,getOrderDetail, postClosing } from "./utils/api";
+import { getOrders,getOrderDetail, postClosing, postLogin} from "./utils/api";
 
 const {Header,Footer} = Layout
 
@@ -16,52 +16,77 @@ function MainLayout() {
     };
 
     const [date,setDate] = useState()
+
+    const [username,setUsername] = useState('')
+    const [password,setPassword] = useState('')
+    const [dateInput,setDateInput] = useState('')
+
+    console.log(username)
+    console.log(password)
+    console.log(dateInput)
     
     const handleOk = async() => {
+        try {
+            const data = {"username": username,"password": password}
+            const logOut = await postLogin(data)
 
-        const dataOrder = await getOrders().then((result) =>{
-            return result.data.filter((item) => item.created_at.slice(0, 10) === date)
-        })
-        const dataOrderDetail = await getOrderDetail().then((result) => result.data.filter((item) => item.created_at === date))
-        const inc = dataOrder.reduce((accum,item) =>{
-            return accum + item.total
-        }, 0)
+            if( logOut.status === 200){
+                const dataOrder = await getOrders().then((result) =>{
+                    return result.data.filter((item) => item.created_at.slice(0, 10) === date)
+                })
+                const dataOrderDetail = await getOrderDetail().then((result) => result.data.filter((item) => item.created_at === date))
 
-        const avc =  Math.round(inc/dataOrder.length)
+                const inc = dataOrder.reduce((accum,item) =>{
+                    return accum + item.total
+                }, 0)
 
-        const hpp = dataOrderDetail.reduce((accum,item) =>{
-            return accum + item.product.hpp
-        }, 0)
+                const avc =  Math.round(inc/dataOrder.length)
 
-        const prf = inc - hpp
+                const hpp = dataOrderDetail.reduce((accum,item) =>{
+                    return accum + item.product.hpp
+                }, 0)
 
- 
-        console.log(inc)
-        console.log(hpp)
-        console.log(prf)
+                const prf = inc - hpp
 
-        const closeData = {
-            "std" : dataOrder.length,
-            "avc" : avc,
-            "itm" : dataOrderDetail.length,
-            "hpp" : hpp,
-            "inc" : inc,
-            "prf" : prf,
-            "user" : dataUser.id,
+                
+
+                const closeData = {
+                    "std" : dataOrder.length,
+                    "avc" : avc,
+                    "itm" : dataOrderDetail.length,
+                    "hpp" : hpp,
+                    "inc" : inc,
+                    "prf" : prf,
+                    "user" : dataUser.id,
+                }
+                alert('berhasil pak')
+                // const result = await postClosing(closeData)
+            }else{
+                alert("closing gagal pak")
+            } 
+        } catch (error) {
+           console.log(error)
+           alert('username atau password salah pak') 
         }
+            
         
-        const result = await postClosing(closeData)
+
+
+
+        
         
         alert('masuk pak')
         setIsModalOpen(false);
     };
     const handleCancel = () => {
+        setDateInput('')
+        setPassword('')
+        setUsername('')
         setIsModalOpen(false);
     };
 
     const onChange = (date, dateString) => {
-        console.log(date);
-        console.log(dateString);
+        setDateInput(dateString);
     };
     
     const [isLogin,setIsLogin] = useState("false")
@@ -101,8 +126,8 @@ function MainLayout() {
             >
                 <div className="form-close">
                     <DatePicker className="close-input" onChange={onChange} />
-                    <Input className="close-input" placeholder="input username" />
-                    <Input.Password className="close-input" placeholder="input password" />
+                    <Input className="close-input" placeholder="input username" onChange={(e)=> setUsername(e.target.value)}/>
+                    <Input.Password className="close-input" placeholder="input password" onChange={(e)=> setPassword(e.target.value)}/>
                 </div>
             </Modal>
 
@@ -116,9 +141,10 @@ function MainLayout() {
                 <Footer className="footer">
                     <Button className="footer-btn" onClick={()=> Navigate("/")}>HOME</Button>
                     <Button className="footer-btn" onClick={()=> Navigate("items-sales/")}>ITEMS SALES</Button>
-                    <Badge className="custom-badge" count={5} offset={[-20, 4]}>
+                    {/* <Badge className="custom-badge" count={5} offset={[-20, 4]}>
                         <Button className="footer-btn" onClick={()=> Navigate("pkm/")}>PKM</Button>
-                    </Badge>
+                    </Badge> */}
+                    <Button className="footer-btn" onClick={()=> Navigate("pkm/")}>PKM</Button>
                     <Button className="footer-btn" onClick={()=> Navigate("stock/")}>STOCK</Button>
                     <Button className="footer-btn" onClick={showModal}>CLOSING</Button>
                     <Button className="footer-btn" onClick={()=> Navigate("/home-dashboard/")}>DASHBOARD</Button>
