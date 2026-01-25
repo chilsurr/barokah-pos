@@ -4,6 +4,7 @@ import { useNavigate,useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getProduct } from "../utils/api";
 import { isAuthenticated } from "../utils/auth";
+import { Empty } from 'antd';
 
 import axios from "axios";
 
@@ -34,12 +35,6 @@ function Pkm() {
                         stock : 0
 
                     }))
-                    // console.log(newdata)
-                    // .map(({user, ...result}) =>({
-                    //     ...result, 
-                    //     inputQty :''
-                    // }))
-
                     setItems(newdata)
                 })
             }else{
@@ -79,22 +74,26 @@ function Pkm() {
  
     const downloadExcel = async () => {
         console.log(items)
-        const response = await axios.post(
-            "http://127.0.0.1:8000/api/export-excel/",
-            items,
-            {
-            responseType: "blob" // ⬅️ WAJIB
-            }
-        );
-
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", `data_export-${date}.xlsx`);
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-        console.log('berhasil kayanya')
+        if(items.length === 0){
+            alert("data pkm kosong pak")
+        }else{
+            const response = await axios.post(
+                "http://127.0.0.1:8000/api/export-excel/",
+                items,
+                {
+                responseType: "blob" // ⬅️ WAJIB
+                }
+            );
+    
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", `data_export-${date}.xlsx`);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            console.log('berhasil kayanya')
+        }
     };
 
     
@@ -131,12 +130,19 @@ function Pkm() {
                         <Input className="value-input"/>
                     </div>
                     <div className="pkm-items">
-                        {items.filter(item =>item.stock < 10 ).map(item=>{     
-                            return <div className="pkm-item">
-                                    <span>{item.name}</span>
-                                    <Button className="acept-btn" onClick={()=>showModal(item)}>Acept</Button>
+                        {items.length > 0 ?(
+                            items.filter(item =>item.stock < 10 ).map(item=>{     
+                                return <div className="pkm-item">
+                                        <span>{item.name}</span>
+                                        <Button className="acept-btn" onClick={()=>showModal(item)}>Acept</Button>
+                                    </div>
+                            })                               
+                            ):(
+                                <div className="empty">
+                                    <Empty />
                                 </div>
-                        })}
+                            )
+                        }
                     </div>
                     <div className="download-xlsx">
                         <Button className="download-btn" onClick={()=> downloadExcel()}>DOWNLOAD PKM</Button>

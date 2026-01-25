@@ -6,7 +6,6 @@ import CountUp from "react-countup";
 import { getClosing } from '../utils/api';
 import { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { isAuthenticated } from "utils/auth";
 import { isAuthenticated } from '../utils/auth';
 
 function RevenueDashboard() {
@@ -24,16 +23,6 @@ function RevenueDashboard() {
         "Oktober",
         "November",
         "Desember"
-    ];
-
-    const growth_data = [
-        { pv: 30 },
-        { pv: 140 },
-        { pv: 180 },
-        { pv: 360 },
-        { pv: 120 },
-        { pv: 340 },
-        { pv: 160 },
     ];
 
 
@@ -133,7 +122,7 @@ function RevenueDashboard() {
                     style={{ width: '100%', maxWidth: '300px', maxHeight: '100px', aspectRatio: 1.618 }}
                     data={dataLineHpp}
                     >
-                        <Line type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={2} />
+                        <Line type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={2} animationDuration={1000} />
                     </LineChart>
                 </div>
                 <div className="data-section">
@@ -146,7 +135,7 @@ function RevenueDashboard() {
                     style={{ width: '100%', maxWidth: '300px', maxHeight: '100px', aspectRatio: 1.618 }}
                     data={dataLineInc}
                     >
-                        <Line type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={2} />
+                        <Line type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={2} animationDuration={1000} />
                     </LineChart>
                 </div>
                 <div className="data-section">
@@ -159,7 +148,7 @@ function RevenueDashboard() {
                     style={{ width: '100%', maxWidth: '300px', maxHeight: '100px', aspectRatio: 1.618 }}
                     data={dataLinePrf}
                     >
-                        <Line type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={2} />
+                        <Line type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={2} animationDuration={1000} />
                     </LineChart>
                 </div>
             </div>

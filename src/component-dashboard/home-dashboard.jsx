@@ -5,7 +5,6 @@ import CountUp from "react-countup";
 import { getClosing } from '../utils/api';
 import { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { isAuthenticated } from "utils/auth";
 import { isAuthenticated } from '../utils/auth';
 
 
@@ -56,7 +55,6 @@ function HomeDashboard() {
             ITM: item.itm,
     }))
 
-    console.log(data)
     useEffect(()=>{
         const checkAuth = async()  =>{
             const isauth = await isAuthenticated()
@@ -100,10 +98,10 @@ function HomeDashboard() {
                             responsive
                             data={data}
                             margin={{
-                            top: 5,
-                            right: 0,
-                            left: 0,
-                            bottom: 5,
+                                top: 5,
+                                right: 0,
+                                left: 0,
+                                bottom: 5,
                             }}
                         >
                             <CartesianGrid strokeDasharray="3 3" />
@@ -129,7 +127,7 @@ function HomeDashboard() {
                         style={{ width: '100%', maxWidth: '300px', maxHeight: '100px', aspectRatio: 1.618 }}
                         data={growth_data}
                         >
-                            <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
+                            <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} animationDuration={1000} />
                         </LineChart>
 
                 </div>
@@ -143,7 +141,7 @@ function HomeDashboard() {
                         style={{ width: '100%', maxWidth: '300px', maxHeight: '100px', aspectRatio: 1.618 }}
                         data={growth_data}
                         >
-                            <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
+                            <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} animationDuration={1000} />
                         </LineChart>
 
                 </div>
@@ -157,7 +155,7 @@ function HomeDashboard() {
                         style={{ width: '100%', maxWidth: '300px', maxHeight: '100px', aspectRatio: 1.618 }}
                         data={growth_data}
                         >
-                            <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
+                            <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} animationDuration={1000} />
                         </LineChart>
 
                 </div>

@@ -6,6 +6,7 @@ const axiosInstance = axios.create({
   // headers: {
   //   "Content-Type": "application/json",
   // }
+  // ini ganggu ke upload dan create excel di bagian conten type
 });
 
 axiosInstance.interceptors.request.use(

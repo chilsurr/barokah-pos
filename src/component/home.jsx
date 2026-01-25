@@ -88,16 +88,6 @@ function Home() {
         setCart(updated);
     };
 
-    // const items = [
-    //     { id: 1, name: "Minyak", price: 17500 ,qty: 1},
-    //     { id: 2, name: "Gula", price: 14000 ,qty: 1},
-    //     { id: 3, name: "Garam", price: 5000 ,qty: 1},
-    //     { id: 4, name: "Telur", price: 28000 ,qty: 1},
-    //     { id: 5, name: "Kopi", price: 12000 ,qty: 1},
-    //     { id: 6, name: "Teh", price: 6000 ,qty: 1}
-    // ];
-
-
 
 
     

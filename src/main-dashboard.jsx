@@ -1,6 +1,6 @@
 import { Layout } from "antd"
 // import  CountUp  from "react-countup";
-import { Outlet, useNavigate} from "react-router-dom";
+import { Outlet, useNavigate,useLocation} from "react-router-dom";
 import logo from "../src/assets/logo-remove.png"
 import logoDashboard from "../src/assets/dashboard.png"
 import pos from "../src/assets/computer.png"
@@ -15,6 +15,7 @@ import transaction from "../src/assets/transaction.png"
 
 function MainDashboard() {
   const navigate = useNavigate()
+  const locations = useLocation()
 
     return (
         <>
@@ -35,15 +36,15 @@ function MainDashboard() {
                                 <img src={pos} alt="" />
                                 <span>POS</span>
                             </div>
-                            <div className="sidebar-item" onClick={()=> navigate("home-dashboard/")}>
+                            <div className={locations.pathname === "/home-dashboard/" ? "btn-active-dashboard" : "sidebar-item"} onClick={()=> navigate("home-dashboard/")}>
                                 <img src={transaction} alt="" />
                                 <span>Transaction</span>
                             </div>
-                            <div className="sidebar-item" onClick={()=> navigate("revenue-dashboard")}>
+                            <div className={locations.pathname === "/revenue-dashboard" ? "btn-active-dashboard" : "sidebar-item"} onClick={()=> navigate("revenue-dashboard")}>
                                 <img src={revenue} alt="" />
                                 <span>Revenue</span>
                             </div>
-                            <div className="sidebar-item" onClick={()=> navigate("items-dashboard")}>
+                            <div className={locations.pathname === "\/items-dashboard" ? "btn-active-dashboard" : "sidebar-item"} onClick={()=> navigate("items-dashboard")}>
                                 <img src={perform} alt="" />
                                 <span>Perform Items</span>
                             </div>

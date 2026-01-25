@@ -1,4 +1,4 @@
-import { Outlet,useNavigate } from "react-router-dom";
+import { Outlet,useNavigate,useLocation } from "react-router-dom";
 import { Layout, Button, Badge, Modal, Input ,DatePicker } from "antd";
 import { useState,useEffect } from "react";
 import { isAuthenticated } from "./utils/auth";
@@ -9,6 +9,7 @@ const {Header,Footer} = Layout
 
 function MainLayout() {
     const Navigate = useNavigate()
+    const location = useLocation()
     const [dataUser,setDataUser] = useState()
     const [isModalOpen, setIsModalOpen] = useState(false);
     const showModal = () => {
@@ -60,7 +61,7 @@ function MainLayout() {
                     "user" : dataUser.id,
                 }
                 alert('berhasil pak')
-                // const result = await postClosing(closeData)
+                const result = await postClosing(closeData)
             }else{
                 alert("closing gagal pak")
             } 
@@ -139,15 +140,15 @@ function MainLayout() {
                     <Outlet/>
                 </Layout>
                 <Footer className="footer">
-                    <Button className="footer-btn" onClick={()=> Navigate("/")}>HOME</Button>
-                    <Button className="footer-btn" onClick={()=> Navigate("items-sales/")}>ITEMS SALES</Button>
+                    <Button className={location.pathname === '/' ? "footer-btn-active" : "footer-btn"} onClick={()=> Navigate("/")}>HOME</Button>
+                    <Button className={location.pathname === '/items-sales/' ? "footer-btn-active" : "footer-btn"} onClick={()=> Navigate("items-sales/")}>ITEMS SALES</Button>
                     {/* <Badge className="custom-badge" count={5} offset={[-20, 4]}>
                         <Button className="footer-btn" onClick={()=> Navigate("pkm/")}>PKM</Button>
                     </Badge> */}
-                    <Button className="footer-btn" onClick={()=> Navigate("pkm/")}>PKM</Button>
-                    <Button className="footer-btn" onClick={()=> Navigate("stock/")}>STOCK</Button>
-                    <Button className="footer-btn" onClick={showModal}>CLOSING</Button>
-                    <Button className="footer-btn" onClick={()=> Navigate("/home-dashboard/")}>DASHBOARD</Button>
+                    <Button className={location.pathname === '/pkm/' ? "footer-btn-active" : "footer-btn"} onClick={()=> Navigate("pkm/")}>PKM</Button>
+                    <Button className={location.pathname === '/stock/' ? "footer-btn-active" : "footer-btn"} onClick={()=> Navigate("stock/")}>STOCK</Button>
+                    <Button className= "footer-btn" onClick={showModal}>CLOSING</Button>
+                    <Button className= "footer-btn" onClick={()=> Navigate("/home-dashboard/")}>DASHBOARD</Button>
                 </Footer>
             </Layout>
         </>

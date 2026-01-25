@@ -105,17 +105,14 @@ function Payment() {
             alert('uang customer tidak boleh kurang')
         }else{
             try {
-                //  alert(`invoice: ${noBon} total: ${resultPayment.total}`)
 
                  const dataorder = {
                      'invoice' : noBon,
                      'total' : resultPayment.total,
                      'user' : dataUser.id
                  }
-                 console.log(dataorder)
                 const result = await postOrder(dataorder)
                 const orderId = result.data.id
-                console.log(orderId)
                 cartPayment.map(async(item)=>{
                     const dataOrderDetail = {
                         'order' : orderId,
@@ -124,7 +121,6 @@ function Payment() {
                         'price' : item.price * item.qty,
                         'user' : dataUser.id
                     }
-                    console.log(dataOrderDetail)
                     const result = await postOrderDetail(dataOrderDetail)
                     getProduct().then((result) =>{
                         const data = result
@@ -133,7 +129,6 @@ function Payment() {
                             putProduct(cuki.id,{
                                 stock : cuki.stock -= item.qty
                             })
-                            console.log('berhasil edit pak')
                         }
                     })
 

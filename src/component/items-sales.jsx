@@ -1,8 +1,9 @@
 import { Row, Col,Input } from "antd";
-import { useNavigate,useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getOrderDetail } from "../utils/api";
 import { isAuthenticated } from "../utils/auth";
+import { Empty } from 'antd';
 
 import "../style/items-sales.css"
 
@@ -57,16 +58,17 @@ function ItemsSales() {
                     <Input placeholder='search product' />
                 </div>
                 <div className="items-sales">
-                    <div className="item">
-                        <span>gula</span>
-                        <span>10</span>
-                    </div>
-                    {items.map((item) => (
+                    {items.length === 0 ?(
+                        <div className="empty">
+                            <Empty />
+                        </div>
+                    ) : (items.map((item) => (
                         <div className="item" key={item.id}>
                             <span>{item.product.name}</span>
                             <span>{item.quantity}</span>
                         </div>
-                    ))}
+                    )))
+                    }
                 </div>
             </Col>
         </Row>

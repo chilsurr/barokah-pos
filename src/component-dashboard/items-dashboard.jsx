@@ -70,9 +70,6 @@ function ItemsDashboard( { isAnimationActive = true }) {
                             console.log(result.data)
                             const newData = Object.values(
                                 result.data.reduce((accum,item)=>{
-                                    // console.log(item.product.id)
-                                    // console.log(accum[item.product.id])
-                                    // console.log(accum)
                                     if(!accum[item.product.id]){
                                         accum[item.product.id] = {...item}
                                     }else{
@@ -117,37 +114,11 @@ function ItemsDashboard( { isAnimationActive = true }) {
                 checkAuth()
     },[])
 
-    // console.log(data)
 
     const onChange = (date, dateString) => {
         console.log(date, dateString);
     }
 
-    // const growthData = [
-    //     { name: "Indomie Goreng", value: 1200 ,index:1},
-    //     { name: "Aqua Botol 600ml", value: 980 ,index:2},
-    //     { name: "Teh Kotak Sosro", value: 860 ,index:3},
-    //     { name: "Susu UHT", value: 740 ,index:4},
-    //     { name: "Roti Tawar", value: 620 ,index:5},
-    //     { name: "Gula Pasir", value: 580 ,index:6},
-    //     { name: "Telur Ayam", value: 540 ,index:7},
-    //     { name: "Beras 5kg", value: 430 ,index:8},
-    //     { name: "Minyak Goreng", value: 390 ,index:9},
-    //     { name: "Snack Chitato", value: 310 ,index:10},
-    // ];
-
-    // const disgrowthData = [
-    //     { name: "Snack Lays", value: 150 ,index:1},
-    //     { name: "Susu Kental Manis", value: 120 ,index:2},
-    //     { name: "Teh Pucuk", value: 110 ,index:3},
-    //     { name: "Roti Manis", value: 90 ,index:4},
-    //     { name: "Permen Mint", value: 80 ,index:5},
-    //     { name: "Minyak Goreng 1L", value: 75 ,index:6},
-    //     { name: "Biskuit Marie", value: 60 ,index:7},
-    //     { name: "Cokelat Batangan", value: 50 ,index:8},
-    //     { name: "Gula Pasir", value: 45 ,index:9},
-    //     { name: "Air Mineral Gelas", value: 40 ,index:10},
-    // ];
 
 
     const Count = CountUp.default
@@ -209,6 +180,7 @@ function ItemsDashboard( { isAnimationActive = true }) {
                                     label={renderCustomizedLabel}
                                     fill="#8884d8"
                                     dataKey="quantity"
+                                    animationDuration={1000}
                                     isAnimationActive={isAnimationActive}
                                 >
                                     {growthData.map((entry, index) => (
@@ -235,6 +207,7 @@ function ItemsDashboard( { isAnimationActive = true }) {
                                     label={renderCustomizedLabel}
                                     fill="#8884d8"
                                     dataKey="quantity"
+                                    animationDuration={1000}
                                     isAnimationActive={isAnimationActive}
                                 >
                                     {disgrowthData.map((entry, index) => (
