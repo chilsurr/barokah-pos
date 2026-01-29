@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 import { getProduct } from "../utils/api";
 import { isAuthenticated } from "../utils/auth";
 import { Empty } from 'antd';
+import dayjs from "dayjs";
+
 
 import axios from "axios";
 
@@ -20,12 +22,7 @@ function Pkm() {
             const isauth = await isAuthenticated()
             console.log(isauth)
             if (isauth.status === 200) {
-                const today = new Date();
-                const yyyy = today.getFullYear();
-                const mm = String(today.getMonth() + 1).padStart(2, '0'); // bulan dimulai dari 0
-                const dd = String(today.getDate()).padStart(2, '0');
-            
-                const formatDate = `${yyyy}${mm}${dd}`;
+                const formatDate = dayjs().format("YYYY-MM-DD");
                 setDate(formatDate); 
 
                 getProduct().then((result)=>{
@@ -95,6 +92,7 @@ function Pkm() {
             console.log('berhasil kayanya')
         }
     };
+
 
     
     return(

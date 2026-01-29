@@ -5,7 +5,7 @@ import { useNavigate,useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { isAuthenticated, } from "../utils/auth";
 import { getProduct } from "../utils/api";
-
+import { convertIdr } from "../utils/curency";
 
 
 
@@ -102,7 +102,7 @@ function Home() {
                         <div className="item" key={item.id}>
                         <span>{item.name}</span>
                         <div>
-                            <span>{item.price}</span>
+                            <span>{convertIdr(item.price)}</span>
                             <Button className='tambah-btn'onClick={() =>handleCart(item)}>Tambah</Button>
                         </div>
                         </div>
@@ -130,7 +130,7 @@ function Home() {
                                 <Button className="counter-btn" onClick={()=>increase(index)}>
                                     <PlusOutlined />
                                 </Button>
-                                <span className='item-price'>{item.price}</span>
+                                <span className='item-price'>{convertIdr(item.price)}</span>
                             </div>
                         ))}
                     </div>
@@ -139,7 +139,7 @@ function Home() {
                             <div>TOTAL RUPIAH</div>
                             <div >
                                 <span>Rp. </span>
-                                <span>{totalCart()}</span>
+                                <span>{convertIdr(totalCart())}</span>
                             </div>
                         </div>
                         <div className='summary-payment'>

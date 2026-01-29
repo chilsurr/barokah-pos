@@ -4,6 +4,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import { ConfigProvider,Upload,message, Button,Row, Col,Input ,Modal} from "antd";
 import { postExcel,getProduct } from "../utils/api";
 import { isAuthenticated } from "../utils/auth";
+import { convertIdr } from "../utils/curency";
 
 import "../style/stock.css"
 
@@ -126,8 +127,8 @@ function stock() {
                         <div className="item" key={item.id}>
                         <span className="item-name">{item.name}</span>
                         <div className="item-child">
-                            <span>{item.hpp}</span>
-                            <span>{item.price}</span>
+                            <span>{convertIdr(item.hpp)}</span>
+                            <span>{convertIdr(item.price)}</span>
                             <span>{item.stock}</span>
                         </div>
                         </div>

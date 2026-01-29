@@ -3,6 +3,7 @@ import { Layout, Button, Badge, Modal, Input ,DatePicker } from "antd";
 import { useState,useEffect } from "react";
 import { isAuthenticated } from "./utils/auth";
 import { getOrders,getOrderDetail, postClosing, postLogin} from "./utils/api";
+import dayjs from "dayjs";
 
 const {Header,Footer} = Layout
 
@@ -70,19 +71,13 @@ function MainLayout() {
            alert('username atau password salah pak') 
         }
             
-        
-
-
-
-        
-        
         alert('masuk pak')
         setIsModalOpen(false);
     };
     const handleCancel = () => {
-        setDateInput('')
-        setPassword('')
         setUsername('')
+        setPassword('')
+        setDateInput('')
         setIsModalOpen(false);
     };
 
@@ -90,19 +85,14 @@ function MainLayout() {
         setDateInput(dateString);
     };
     
-    const [isLogin,setIsLogin] = useState("false")
+
     useEffect(()=>{
         const checkAuth = async() =>{
             const isAuth = await isAuthenticated()
             setDataUser(isAuth.data)
             if(isAuth.status === 200){
-                setIsLogin('true')
                 console.log('login true')
-                const today = new Date();
-                const yyyy = today.getFullYear();
-                const mm = String(today.getMonth() + 1).padStart(2, '0'); // bulan dimulai dari 0
-                const dd = String(today.getDate()).padStart(2, '0');
-                const formatDate = `${yyyy}-${mm}-${dd}`;
+                const formatDate = dayjs().format("YYYY-MM-DD");
                 setDate(formatDate)
         
             }else{
@@ -111,7 +101,7 @@ function MainLayout() {
             }
         }
         checkAuth()
-    },[])
+    },[isModalOpen])
 
     return(
         <>
@@ -126,9 +116,9 @@ function MainLayout() {
                 className="close-modal"
             >
                 <div className="form-close">
-                    <DatePicker className="close-input" onChange={onChange} />
-                    <Input className="close-input" placeholder="input username" onChange={(e)=> setUsername(e.target.value)}/>
-                    <Input.Password className="close-input" placeholder="input password" onChange={(e)=> setPassword(e.target.value)}/>
+                    <DatePicker className="close-input" value={dateInput} onChange={onChange} />
+                    <Input className="close-input" placeholder="input username" value={username} onChange={(e)=> setUsername(e.target.value)}/>
+                    <Input.Password className="close-input" placeholder="input password" value={password} onChange={(e)=> setPassword(e.target.value)}/>
                 </div>
             </Modal>
 

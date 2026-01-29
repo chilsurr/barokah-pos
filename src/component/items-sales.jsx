@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { getOrderDetail } from "../utils/api";
 import { isAuthenticated } from "../utils/auth";
 import { Empty } from 'antd';
+import dayjs from "dayjs";
 
 import "../style/items-sales.css"
 
@@ -13,28 +14,17 @@ function ItemsSales() {
     useEffect(()=>{
         const checkAuth = async()  =>{
             const isauth = await isAuthenticated()
-            const today = new Date();
-            const yyyy = today.getFullYear();
-            const mm = String(today.getMonth() + 1).padStart(2, '0'); // bulan dimulai dari 0
-            const dd = String(today.getDate()).padStart(2, '0');
     
-            const formatDate = `${yyyy}-${mm}-${dd}`;
+            const formatDate = dayjs().format("YYYY-MM-DD");
             if (isauth.status === 200) {
                 getOrderDetail().then((result)=>{
                     const data = result.data
                     const cuki = data.filter(product => product.created_at == formatDate && product.user == isauth.data.id)
-                    console.log(typeof cuki)
-                    console.log(data)
-                    console.log(cuki)
                     const newData = Object.values(
                         cuki.reduce((accum,item)=>{
-                            console.log(item.product.id)
-                            console.log(accum)
                             if(!accum[item.product.id]){
-                                console.log(accum[item.product.id])
                                 accum[item.product.id] = {...item}
                             }else{
-                                console.log(accum[item.product.id])
                                 accum[item.product.id].quantity += item.quantity 
                             }
                             return accum

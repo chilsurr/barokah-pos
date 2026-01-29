@@ -6,6 +6,9 @@ import { useState,useEffect } from "react";
 import { isAuthenticated } from "../utils/auth";
 import { postOrder,postOrderDetail, getProduct,putProduct } from "../utils/api";
 import { nanoid } from 'nanoid'
+import { convertIdr } from "../utils/curency";
+
+import dayjs from "dayjs";
 
 
 function Payment() {
@@ -33,23 +36,15 @@ function Payment() {
             const isauth = await isAuthenticated()
             setDataUser(isauth.data)
             if (isauth.status === 200) {
-                const today = new Date();
-                const yyyy = today.getFullYear();
-                const mm = String(today.getMonth() + 1).padStart(2, '0'); // bulan dimulai dari 0
-                const dd = String(today.getDate()).padStart(2, '0');
-        
-                const hh = String(today.getHours()).padStart(2, '0');
-                const min = String(today.getMinutes()).padStart(2, '0');
-                const ss = String(today.getSeconds()).padStart(2, '0');
-            
-                const formatDate = `${yyyy}${mm}${dd}`;
-                const formattime = `${hh}:${min}:${ss}`;
+                const formatDate = dayjs().format("DDMMYYYY");
+                const formattime = dayjs().format("HH:mm:ss");
                 setDate({
                     date: formatDate,
                     time: formattime
                 }); 
-                setNoBon(isauth.data.id +'-'+ dd + mm+ nanoid(4).toUpperCase() )
+                setNoBon(isauth.data.id +'-'+ dayjs().format("DDMM") + nanoid(4).toUpperCase() )
                 handleTotalCart()
+
             }else{
                 navigate("/login")
             }  
@@ -178,7 +173,7 @@ function Payment() {
                                 <span className='item-receipe-no'>{index + 1}</span>
                                 <span className='item-receipe-name'>{item.name}</span>
                                 <span className='item-receipe-qty'>{item.qty}</span>
-                                <span className='item-receipe-price'>{item.price}</span>
+                                <span className='item-receipe-price'>{convertIdr(item.price)}</span>
                             </div>
                         )
                     })}
@@ -187,15 +182,15 @@ function Payment() {
                     <div>
                         <span>TOTAL</span>
                         <span>{cartPayment.reduce((total,item)=> total+item.qty ,0)}</span>
-                        <span>{totalCart}</span>
+                        <span>{convertIdr(totalCart)}</span>
                     </div>
                     <div>
                         <span>CASH</span>
-                        <span>{isProcesed?resultPayment.cash:0}</span>
+                        <span>{convertIdr(isProcesed?resultPayment.cash:0)}</span>
                     </div>
                     <div>
                         <span>CHANGE</span>
-                        <span>{isProcesed?resultPayment.change:0}</span>
+                        <span>{convertIdr(isProcesed?resultPayment.change:0)}</span>
                     </div>
                 </div>
                 <div className="date-receipe">
@@ -215,7 +210,11 @@ function Payment() {
             <div className="payment-top">
                 <div className="payment-total">
                     <span>TOTAL</span>
-                    <div className="amount-total">{isProcesed ? resultPayment.change :totalCart * -1}</div>
+                    <div className="amount-total">
+                        <div>Rp.</div>
+                        <div>{convertIdr(isProcesed ? resultPayment.change :totalCart * -1)}</div>
+                        
+                    </div>
                 </div>
                 <div className="payment-input">
                     <div className="money-preset">
@@ -226,7 +225,7 @@ function Payment() {
                         <Button className="money-preset-btn" onClick={()=> handleMoneyPreset(100000)} >100.000</Button>
                     </div>
                     <div className="money-input">
-                        <Input readOnly value={cashInput}/>
+                        <Input readOnly value={convertIdr(cashInput)}/>
                         <Button className="process-btn"  onClick={()=> handleProcess()}>PROCESS</Button>
                     </div>
                 </div>
@@ -237,19 +236,19 @@ function Payment() {
                         <div className="payment-info">
                             <div className="row-payment-info">
                                 <span>Total</span>
-                                <span>{resultPayment.total}</span>
+                                <span>{convertIdr(resultPayment.total)}</span>
                             </div>
                             <div className="row-payment-info">
                                 <span>Cash</span>
-                                <span>{isProcesed?resultPayment.cash:0}</span>
+                                <span>{convertIdr(isProcesed?resultPayment.cash:0)}</span>
                             </div>
                             <div className="row-payment-info">
                                 <span>Wallet</span>
-                                <span>0</span>
+                                <span>{convertIdr(0)}</span>
                             </div>
                             <div className="row-payment-info">
                                 <span>Change</span>
-                                <span>{isProcesed?resultPayment.change:0}</span>
+                                <span>{convertIdr(isProcesed?resultPayment.change:0)}</span>
                             </div>
                         </div>
                         <div className="payment-options">
