@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { isAuthenticated, } from "../utils/auth";
 import { getProduct } from "../utils/api";
 import { convertIdr } from "../utils/curency";
+import { handleSearch } from "../utils/search";    
 
 
 
@@ -23,13 +24,13 @@ function Home() {
     }
 
     const[items, setItems] = useState([])
-    const[dataSearch, setDataSearch] = useState([])
-    const handleSearch = (datainput)=>{
-        const data = items.filter((item)=>{
-            return item.name.toLowerCase().includes(datainput.toLowerCase()) 
-        })
-        setDataSearch(data)
-    }
+    const[dataInput, setDataInput] = useState([])
+    // const handleSearch = (datainput)=>{
+    //     const data = items.filter((item)=>{
+    //         return item.name.toLowerCase().includes(datainput.toLowerCase()) 
+    //     })
+    //     setDataSearch(data)
+    // }
 
 
     useEffect(()=>{
@@ -46,8 +47,13 @@ function Home() {
                 navigate("/login")
             }  
         }
-        checkAuth()
-    },[])
+        if(dataInput.length > 0){
+            const data = handleSearch(dataInput,items)
+            setItems(data)
+        }else{
+            checkAuth()
+        }
+    },[dataInput])
 
     const totalCart = () => {
         return cart.reduce((total, item) => {
@@ -95,10 +101,10 @@ function Home() {
         <Row style={{height: '100%'}}>
             <Col span={16} className='left-col'>
                 <div className='search-item'>
-                    <Input placeholder='search product' onChange={(e)=>handleSearch(e.target.value)} />
+                    <Input placeholder='search product' onChange={(e)=>setDataInput(e.target.value)} />
                 </div>
                 <div className="products">
-                    {(dataSearch.length > 0 ? dataSearch : items).map((item) => (
+                    {items.map((item) => (
                         <div className="item" key={item.id}>
                         <span>{item.name}</span>
                         <div>
@@ -107,6 +113,15 @@ function Home() {
                         </div>
                         </div>
                     ))}
+                    {/* {(dataSearch.length > 0 ? dataSearch : items).map((item) => (
+                        <div className="item" key={item.id}>
+                        <span>{item.name}</span>
+                        <div>
+                            <span>{convertIdr(item.price)}</span>
+                            <Button className='tambah-btn'onClick={() =>handleCart(item)}>Tambah</Button>
+                        </div>
+                        </div>
+                    ))} */}
                 </div>
             </Col>
             <Col span={8}>

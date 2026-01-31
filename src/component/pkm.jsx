@@ -6,8 +6,7 @@ import { getProduct } from "../utils/api";
 import { isAuthenticated } from "../utils/auth";
 import { Empty } from 'antd';
 import dayjs from "dayjs";
-
-
+import { handleSearch } from "../utils/search";
 import axios from "axios";
 
 import "../style/pkm.css"
@@ -15,7 +14,7 @@ import "../style/pkm.css"
 function Pkm() {
     const navigate = useNavigate()
     const [items, setItems] = useState([])
-    console.log(items)
+    const [dataInput, setDataInput] = useState([])
     const [date,setDate] = useState({})
     useEffect(()=>{
         const checkAuth = async()  =>{
@@ -39,8 +38,13 @@ function Pkm() {
                 navigate("/login")
             }  
         }
-        checkAuth()
-    },[])
+        if(dataInput.length > 0){
+            const data = handleSearch(dataInput,items)
+            setItems(data)
+        }else{
+            checkAuth()
+        } 
+    },[dataInput])
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
@@ -125,7 +129,7 @@ function Pkm() {
             <Row className="row-pkm" style={{height: '100%'}}>
                 <Col className="col-pkm" span={16}>
                     <div className="search-pkm">
-                        <Input className="value-input"/>
+                        <Input className="value-input" onChange={(e) => setDataInput(e.target.value) }/>
                     </div>
                     <div className="pkm-items">
                         {items.length > 0 ?(

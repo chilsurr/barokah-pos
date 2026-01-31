@@ -3,14 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getOrderDetail } from "../utils/api";
 import { isAuthenticated } from "../utils/auth";
+// import { handleSearch } from "../utils/search";
 import { Empty } from 'antd';
 import dayjs from "dayjs";
 
 import "../style/items-sales.css"
 
+
 function ItemsSales() {
     const navigate = useNavigate()
     const[items, setItems] = useState([])
+    const[dataInput, setDataInput] = useState([])
     useEffect(()=>{
         const checkAuth = async()  =>{
             const isauth = await isAuthenticated()
@@ -36,8 +39,19 @@ function ItemsSales() {
                 navigate("/login")
             }  
         }
-        checkAuth()
-    },[])
+        if(dataInput.length > 0){
+            const data = items.filter((item)=>{
+                return item.product.name.toLowerCase().includes(dataInput.toLowerCase()) 
+            })
+            setItems(data)
+        }else{
+            checkAuth()
+        }        
+    },[dataInput])     
+
+    
+
+
     return(
         <Row className="row-items-sales" style={{height: '100%'}}>
             <Col className="col-items-sales" span={16}>
@@ -45,7 +59,7 @@ function ItemsSales() {
                     <span>ITEMS SALES</span>
                 </div>
                 <div className='search-item'>
-                    <Input placeholder='search product' />
+                    <Input placeholder='search product' onChange={(e)=> setDataInput(e.target.value)} />
                 </div>
                 <div className="items-sales">
                     {items.length === 0 ?(

@@ -5,13 +5,14 @@ import { ConfigProvider,Upload,message, Button,Row, Col,Input ,Modal} from "antd
 import { postExcel,getProduct } from "../utils/api";
 import { isAuthenticated } from "../utils/auth";
 import { convertIdr } from "../utils/curency";
-
+import { handleSearch } from "../utils/search";
 import "../style/stock.css"
 
 
 function stock() {
     const navigate = useNavigate()
     const[items, setItems] = useState([])
+    const[dataInput, setDataInput] = useState([])
     useEffect(()=>{
         const checkAuth = async()  =>{
             const isauth = await isAuthenticated()
@@ -27,8 +28,13 @@ function stock() {
                 navigate("/login")
             }  
         }
-        checkAuth()
-    },[])
+        if(dataInput.length > 0){
+            const data = handleSearch(dataInput,items)
+            setItems(data)
+        }else{
+            checkAuth()
+        }
+    },[dataInput])
     const props = {
         beforeUpload: file => {
             const isXlsx = 
@@ -74,15 +80,15 @@ function stock() {
     //     { id: 6, name: "Teh", price: 6000 ,qty: 1}
     // ];
 
-    const[dataSearch, setDataSearch] = useState(items)
-    const handleSearch = (datainput)=>{
-        console.log(datainput.toLowerCase())
-        const data = items.filter((item)=>{
-            console.log(item.name.toLowerCase() )
-            return item.name.toLowerCase().includes(datainput.toLowerCase()) 
-        })
-        setDataSearch(data)
-    }
+    // const[dataSearch, setDataSearch] = useState(items)
+    // const handleSearch = (datainput)=>{
+    //     console.log(datainput.toLowerCase())
+    //     const data = items.filter((item)=>{
+    //         console.log(item.name.toLowerCase() )
+    //         return item.name.toLowerCase().includes(datainput.toLowerCase()) 
+    //     })
+    //     setDataSearch(data)
+    // }
 
 
     return(
@@ -111,7 +117,7 @@ function stock() {
         <Row className="row-stock" style={{height: '100%'}}>
             <Col className="col-stock" span={16}>
                 <div className="header-actions">
-                    <Input placeholder='search product' onChange={(e)=>handleSearch(e.target.value)}/>
+                    <Input placeholder='search product' onChange={(e)=>setDataInput(e.target.value)}/>
                     <Button onClick={()=>showModal()}>Update Stock</Button>
                 </div>
                 <div className="stock-header">
@@ -123,7 +129,7 @@ function stock() {
                     </div>
                 </div>
                 <div className="stock">
-                    {(dataSearch.length > 0 ? dataSearch : items).map((item) => (
+                    {items.map((item) => (
                         <div className="item" key={item.id}>
                         <span className="item-name">{item.name}</span>
                         <div className="item-child">
