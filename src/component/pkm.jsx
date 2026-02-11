@@ -6,15 +6,14 @@ import { getProduct } from "../utils/api";
 import { isAuthenticated } from "../utils/auth";
 import { Empty } from 'antd';
 import dayjs from "dayjs";
-import { handleSearch } from "../utils/search";
 import axios from "axios";
+import SearchBox from "../utils/search";
 
 import "../style/pkm.css"
 
 function Pkm() {
     const navigate = useNavigate()
     const [items, setItems] = useState([])
-    const [dataInput, setDataInput] = useState([])
     const [date,setDate] = useState({})
     useEffect(()=>{
         const checkAuth = async()  =>{
@@ -38,13 +37,10 @@ function Pkm() {
                 navigate("/login")
             }  
         }
-        if(dataInput.length > 0){
-            const data = handleSearch(dataInput,items)
-            setItems(data)
-        }else{
-            checkAuth()
-        } 
-    },[dataInput])
+
+        checkAuth()
+ 
+    },[])
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
@@ -97,6 +93,19 @@ function Pkm() {
         }
     };
 
+    const [dataSearch, setDataSearch] = useState([])
+    const [searchValue,setSearchValue] = useState('')
+    const handleChange = (e) =>{
+        const value = e.target.value
+        setSearchValue(value)
+        console.log(items)
+        const data = items.filter((item)=>{
+            return item.name.toLowerCase().includes( value.toLowerCase()) 
+        })
+        console.log(data)
+        setDataSearch(data)
+    }
+
 
     
     return(
@@ -129,16 +138,17 @@ function Pkm() {
             <Row className="row-pkm" style={{height: '100%'}}>
                 <Col className="col-pkm" span={16}>
                     <div className="search-pkm">
-                        <Input className="value-input" onChange={(e) => setDataInput(e.target.value) }/>
+                        <SearchBox onChange={handleChange} value={searchValue}/>
+                        {/* <Input className="value-input" onChange={(e) => setDataInput(e.target.value) }/> */}
                     </div>
                     <div className="pkm-items">
                         {items.length > 0 ?(
-                            items.filter(item =>item.stock < 10 ).map(item=>{     
-                                return <div className="pkm-item">
+                            (dataSearch.length > 0 ? dataSearch : items).map((item) =>(    
+                                    <div className="pkm-item" key={item.id}>
                                         <span>{item.name}</span>
                                         <Button className="acept-btn" onClick={()=>showModal(item)}>Acept</Button>
                                     </div>
-                            })                               
+                            ))                               
                             ):(
                                 <div className="empty">
                                     <Empty />

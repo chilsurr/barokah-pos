@@ -5,14 +5,13 @@ import { ConfigProvider,Upload,message, Button,Row, Col,Input ,Modal} from "antd
 import { postExcel,getProduct } from "../utils/api";
 import { isAuthenticated } from "../utils/auth";
 import { convertIdr } from "../utils/curency";
-import { handleSearch } from "../utils/search";
+import SearchBox from "../utils/search";
 import "../style/stock.css"
 
 
 function stock() {
     const navigate = useNavigate()
     const[items, setItems] = useState([])
-    const[dataInput, setDataInput] = useState([])
     useEffect(()=>{
         const checkAuth = async()  =>{
             const isauth = await isAuthenticated()
@@ -28,13 +27,44 @@ function stock() {
                 navigate("/login")
             }  
         }
-        if(dataInput.length > 0){
-            const data = handleSearch(dataInput,items)
-            setItems(data)
+        checkAuth()
+
+    },[])
+
+    const [dataSearch, setDataSearch] = useState([])
+    const [searchValue,setSearchValue] = useState('')
+    const handleChange = (e) =>{
+        const value = e.target.value
+        setSearchValue(value)
+        console.log(items)
+        const data = items.filter((item)=>{
+            return item.name.toLowerCase().includes( value.toLowerCase()) 
+        })
+        console.log(data)
+        setDataSearch(data)
+    }
+
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedFile, setSelectedFile] = useState(null);
+    const showModal = (item) => {
+        // setSelectedItem(item)
+        setIsModalOpen(true);
+    };
+    const handleOk = () => {
+        if(!selectedFile){
+            alert("masukin file nya dulu pak")
         }else{
-            checkAuth()
+            postExcel(selectedFile)
+            setSelectedFile(null)
+            setIsModalOpen(false);
         }
-    },[dataInput])
+    };
+    const handleCancel = () => {
+        setSelectedFile(null)
+        setIsModalOpen(false);
+    };
+
     const props = {
         beforeUpload: file => {
             const isXlsx = 
@@ -47,38 +77,15 @@ function stock() {
                 message.error(`${file.name} is not excel file`);
                 return isXlsx || Upload.LIST_IGNORE;
             }else{
-                postExcel(file)
-                // alert("upload berhasil pak")
-                // return false;
+                setSelectedFile(file)
+                return false;
+                // postExcel(file)
             }
         },
-        // onChange: info => {
-        //     console.log(info.fileList);
-        // },
-    };
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedItem, setSelectedItem] = useState(null);
-    const showModal = (item) => {
-        setSelectedItem(item)
-        setIsModalOpen(true);
-    };
-    const handleOk = () => {
-        setIsModalOpen(false);
-    };
-    const handleCancel = () => {
-        setIsModalOpen(false);
     };
 
 
-    // const items = [
-    //     { id: 1, name: "Minyak", price: 17500 ,qty: 1},
-    //     { id: 2, name: "Gula", price: 14000 ,qty: 1},
-    //     { id: 3, name: "Garam", price: 5000 ,qty: 1},
-    //     { id: 4, name: "Telur", price: 28000 ,qty: 1},
-    //     { id: 5, name: "Kopi", price: 12000 ,qty: 1},
-    //     { id: 6, name: "Teh", price: 6000 ,qty: 1}
-    // ];
 
     // const[dataSearch, setDataSearch] = useState(items)
     // const handleSearch = (datainput)=>{
@@ -117,7 +124,8 @@ function stock() {
         <Row className="row-stock" style={{height: '100%'}}>
             <Col className="col-stock" span={16}>
                 <div className="header-actions">
-                    <Input placeholder='search product' onChange={(e)=>setDataInput(e.target.value)}/>
+                    <SearchBox onChange={handleChange} value={searchValue}/>
+                    {/* <Input placeholder='search product' onChange={(e)=>setDataInput(e.target.value)}/> */}
                     <Button onClick={()=>showModal()}>Update Stock</Button>
                 </div>
                 <div className="stock-header">
@@ -129,7 +137,7 @@ function stock() {
                     </div>
                 </div>
                 <div className="stock">
-                    {items.map((item) => (
+                    {(dataSearch.length > 0 ? dataSearch : items).map((item) => (
                         <div className="item" key={item.id}>
                         <span className="item-name">{item.name}</span>
                         <div className="item-child">

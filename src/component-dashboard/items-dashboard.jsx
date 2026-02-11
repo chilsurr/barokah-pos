@@ -1,6 +1,6 @@
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
 import { Cell, Pie, PieChart } from 'recharts';
-import { DatePicker,Layout  } from "antd"
+import { DatePicker,Button  } from "antd"
 import CountUp from "react-countup";
 import { useEffect } from 'react';
 import { isAuthenticated } from '../utils/auth';
@@ -125,8 +125,9 @@ function ItemsDashboard( { isAnimationActive = true }) {
     return(
          <>
             <div className="date-input-dashboard">
-                <DatePicker className="close-input" onChange={onChange} />
-                <DatePicker className="close-input" onChange={onChange} />
+                <DatePicker className="date-picker" onChange={onChange} />
+                <DatePicker className="date-picker" onChange={onChange} />
+                <Button className='btn-proces-items'>Process</Button>
                 <div className="bar-chart">
                     <BarChart
                         style={{
@@ -146,7 +147,7 @@ function ItemsDashboard( { isAnimationActive = true }) {
                         <YAxis width="auto" />
                         {/* <Tooltip /> */}
                         <Legend />
-                        <Bar dataKey="quantity" fill="#2E7D32" animationDuration={1000} activeBar={{ fill: 'pink', stroke: 'blue' }} radius={[5, 5, 0, 0]} />
+                        <Bar dataKey="quantity" name="Items Disgrowth" fill="#2E7D32" animationDuration={1000} activeBar={{ fill: 'pink', stroke: 'blue' }} radius={[5, 5, 0, 0]} />
                     </BarChart> 
                     <BarChart
                         style={{
@@ -166,7 +167,7 @@ function ItemsDashboard( { isAnimationActive = true }) {
                         <YAxis width="auto" />
                         {/* <Tooltip /> */}
                         <Legend />
-                        <Bar dataKey="quantity" fill="#00695C" animationDuration={1000} activeBar={{ fill: 'pink', stroke: 'blue' }} radius={[5, 5, 0, 0]} />
+                        <Bar dataKey="quantity" name="Items Growth" fill="#00695C" animationDuration={1000} activeBar={{ fill: 'pink', stroke: 'blue' }} radius={[5, 5, 0, 0]} />
                     </BarChart> 
 
                 </div>
@@ -192,7 +193,7 @@ function ItemsDashboard( { isAnimationActive = true }) {
                         <div className="list-item-growth">
                             {growthData.map((item,index)=>(
                                 <div className='list-item' key={item.name + index}>
-                                    <span>{item.name}</span>
+                                    <span>{index + 1 +". "+ item.name}</span>
                                     <span>{item.quantity}</span>
                                 </div>
                             ))}
@@ -219,7 +220,7 @@ function ItemsDashboard( { isAnimationActive = true }) {
                         <div className="list-item-disgrowth" >
                             {disgrowthData.map((item,index)=>(
                                 <div className='list-item'key={item.name + index}>
-                                    <span>{item.name}</span>
+                                    <span>{index + 1 +". "+ item.name}</span>
                                     <span>{item.quantity}</span>
                                 </div>
                             ))}

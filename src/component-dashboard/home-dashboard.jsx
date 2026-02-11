@@ -44,14 +44,12 @@ function HomeDashboard() {
 
     const [dataRender,setDataRender] = useState({
         std : 0,
-        avc : 0,
         itm : 0,
     })
     const [newData, setNewData] = useState([]) 
     const data = newData.map((item,index) =>({
             name: bulan[index],
             STD: item.std,
-            AVC: item.avc,
             ITM: item.itm,
     }))
 
@@ -63,12 +61,10 @@ function HomeDashboard() {
                     setNewData(result.data)
                     console.log(result.data)
                     const std = result.data.reduce((total,item) => total + item.std,0)
-                    const avc = result.data.reduce((total,item) => total + item.avc,0)
                     const itm = result.data.reduce((total,item) => total + item.itm,0)
 
                     setDataRender({
                         std : std,
-                        avc : avc,
                         itm : itm,
                     })
                 })
@@ -109,9 +105,8 @@ function HomeDashboard() {
                             <YAxis width="auto" />
                             {/* <Tooltip /> */}
                             <Legend />
-                            <Bar dataKey="AVC" fill="#2E7D32" animationDuration={1000} activeBar={{ fill: 'pink', stroke: 'blue' }} radius={[5, 5, 0, 0]} />
-                            <Bar dataKey="ITM" fill="#66BB6A" animationDuration={1000} activeBar={{ fill: 'gold', stroke: 'purple' }} radius={[5, 5, 0, 0]} />
-                            <Bar dataKey="STD" fill="#43A047" animationDuration={1000} activeBar={{ fill: 'pink', stroke: 'blue' }} radius={[5, 5, 0, 0]} />
+                            <Bar dataKey="ITM" fill="#2E7D32" animationDuration={1000} activeBar={{ fill: 'gold', stroke: 'purple' }} radius={[5, 5, 0, 0]} />
+                            <Bar dataKey="STD" fill="#66BB6A" animationDuration={1000} activeBar={{ fill: 'pink', stroke: 'blue' }} radius={[5, 5, 0, 0]} />
                         </BarChart> 
 
                 </div>
@@ -131,20 +126,7 @@ function HomeDashboard() {
                         </LineChart>
 
                 </div>
-                <div className="data-section">
-                    <span>Total AVC</span>
-                    <div className="total-data">
-                        <Count end={36000} duration={1.3} separator="." />
-                    </div>
-                    <div className="growth">5 increased from last month</div>
-                        <LineChart
-                        style={{ width: '100%', maxWidth: '300px', maxHeight: '100px', aspectRatio: 1.618 }}
-                        data={growth_data}
-                        >
-                            <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} animationDuration={1000} />
-                        </LineChart>
 
-                </div>
                 <div className="data-section">
                     <span>Total ITM</span>
                     <div className="total-data">

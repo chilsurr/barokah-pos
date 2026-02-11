@@ -222,6 +222,24 @@
   font-size: 18px;
 }
 
+.date-picker{
+  margin-right: 10px;
+}
+
+.btn-proces-items{
+  height: 35px;
+  width: 120px;
+  font-size: 16px;
+  font-weight: 500;
+  background-color: var(--primary-color);
+  color: var(--accent-color-4);
+}
+
+.btn-proces-items:hover {
+  border-color: var(--primary-color) !important;
+  color: var(--primary-color) !important;
+}
+
 .growth{
   margin-bottom: 5px;
 }
@@ -274,6 +292,7 @@
   border: 1px solid var(--primary-color);
   background-color: #fff;
 }
+
 
 
 /* {

@@ -6,7 +6,8 @@ import { useState, useEffect } from "react";
 import { isAuthenticated, } from "../utils/auth";
 import { getProduct } from "../utils/api";
 import { convertIdr } from "../utils/curency";
-import { handleSearch } from "../utils/search";    
+import SearchBox from "../utils/search";
+
 
 
 
@@ -24,7 +25,16 @@ function Home() {
     }
 
     const[items, setItems] = useState([])
-    const[dataInput, setDataInput] = useState([])
+    const[dataSearch, setDataSearch] = useState([])
+    const [searchValue,setSearchValue] = useState('')
+    const handleChange = (e) =>{
+        const value = e.target.value
+        setSearchValue(value)
+        const data = items.filter((item)=>{
+            return item.name.toLowerCase().includes( value.toLowerCase()) 
+        })
+        setDataSearch(data)
+    } 
     // const handleSearch = (datainput)=>{
     //     const data = items.filter((item)=>{
     //         return item.name.toLowerCase().includes(datainput.toLowerCase()) 
@@ -47,13 +57,10 @@ function Home() {
                 navigate("/login")
             }  
         }
-        if(dataInput.length > 0){
-            const data = handleSearch(dataInput,items)
-            setItems(data)
-        }else{
-            checkAuth()
-        }
-    },[dataInput])
+        checkAuth()
+    },[])
+
+
 
     const totalCart = () => {
         return cart.reduce((total, item) => {
@@ -93,7 +100,7 @@ function Home() {
 
         setCart(updated);
     };
-
+    
 
 
     
@@ -101,19 +108,11 @@ function Home() {
         <Row style={{height: '100%'}}>
             <Col span={16} className='left-col'>
                 <div className='search-item'>
-                    <Input placeholder='search product' onChange={(e)=>setDataInput(e.target.value)} />
+                    <SearchBox onChange={handleChange} value={searchValue}/>
+                    {/* <Input placeholder='search product' onChange={(e)=> handleSearch(e.target.value)} /> */}
                 </div>
                 <div className="products">
-                    {items.map((item) => (
-                        <div className="item" key={item.id}>
-                        <span>{item.name}</span>
-                        <div>
-                            <span>{convertIdr(item.price)}</span>
-                            <Button className='tambah-btn'onClick={() =>handleCart(item)}>Tambah</Button>
-                        </div>
-                        </div>
-                    ))}
-                    {/* {(dataSearch.length > 0 ? dataSearch : items).map((item) => (
+                    {/* {items.map((item) => (
                         <div className="item" key={item.id}>
                         <span>{item.name}</span>
                         <div>
@@ -122,6 +121,15 @@ function Home() {
                         </div>
                         </div>
                     ))} */}
+                    {(dataSearch.length > 0 ? dataSearch : items).map((item) => (
+                        <div className="item" key={item.id}>
+                        <span>{item.name}</span>
+                        <div>
+                            <span>{convertIdr(item.price)}</span>
+                            <Button className='tambah-btn'onClick={() =>handleCart(item)}>Tambah</Button>
+                        </div>
+                        </div>
+                    ))}
                 </div>
             </Col>
             <Col span={8}>
