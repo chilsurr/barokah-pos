@@ -1,11 +1,13 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
 import { Line, LineChart } from 'recharts';
-import { DatePicker  } from "antd"
+import { DatePicker,Button  } from "antd"
 import CountUp from "react-countup";
 import { getClosing } from '../utils/api';
 import { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { isAuthenticated } from '../utils/auth';
+
+import dayjs from 'dayjs';
 
 
 function HomeDashboard() {
@@ -36,9 +38,15 @@ function HomeDashboard() {
         { pv: 240 },
         { pv: 230 },
     ];
-
-    const onChange = (date, dateString) => {
-        console.log(date, dateString);
+    const [firstDate, setFirstDate] = useState()
+    const [lastDate, setLastDate] = useState()
+    const onChange1 = (date, dateString) => {
+        console.log(dateString);
+        setFirstDate(dateString)
+    }
+    const onChange2 = (date, dateString) => {
+        console.log(dateString);
+        setLastDate(dateString)
     }
     const Count = CountUp.default
 
@@ -46,22 +54,44 @@ function HomeDashboard() {
         std : 0,
         itm : 0,
     })
-    const [newData, setNewData] = useState([]) 
-    const data = newData.map((item,index) =>({
+    const [data, setData] = useState([]) 
+    const [dataThisMonth, setDataThisMonth] = useState([]) 
+    const [dataFilter, setDataFilter] = useState([]) 
+    const dataBar = (dataFilter.length > 0 ? dataFilter : dataThisMonth).map((item,index) =>({
             name: bulan[index],
             STD: item.std,
             ITM: item.itm,
     }))
+
+
+
+    const handleProcess = (first, last)=>{
+        const dataDumy =  data.filter(item => item.created_at >= first && item.created_at <= last)
+        setDataFilter(dataDumy)
+
+        const std = dataDumy.reduce((total,item) => total + item.std,0)
+        const itm = dataDumy.reduce((total,item) => total + item.itm,0)
+
+        setDataRender({
+            std : std,
+            itm : itm,
+        })
+    }
 
     useEffect(()=>{
         const checkAuth = async()  =>{
             const isauth = await isAuthenticated()
             if (isauth.status === 200) {
                 getClosing().then((result) => {
-                    setNewData(result.data)
+                    const date1 = dayjs().format("YYYY-MM-"+'01')
+                    const date2 = dayjs().format("YYYY-MM-DD")
+                    console.log(`${date1} - ${date2}`)
+                    const data = result.data.filter(item => item.created_at >= date1 && item.created_at <= date2)
+                    setData(result.data)
+                    setDataThisMonth(data)
                     console.log(result.data)
-                    const std = result.data.reduce((total,item) => total + item.std,0)
-                    const itm = result.data.reduce((total,item) => total + item.itm,0)
+                    const std = data.reduce((total,item) => total + item.std,0)
+                    const itm = data.reduce((total,item) => total + item.itm,0)
 
                     setDataRender({
                         std : std,
@@ -81,9 +111,9 @@ function HomeDashboard() {
     return(
         <>
             <div className="date-input-dashboard">
-                <DatePicker className="close-input" onChange={onChange} />
-                <DatePicker className="close-input" onChange={onChange} />
-                {/* <Button className="btn-process-dashboard">Process</Button> */}
+                <DatePicker className="date-picker" onChange={onChange1} />
+                <DatePicker className="date-picker" onChange={onChange2} />
+                <Button className='btn-proces-items'onClick={()=> handleProcess(firstDate,lastDate)}>Process</Button>
                 </div>
                 <div className="chart">
 
@@ -92,7 +122,7 @@ function HomeDashboard() {
                                 width: '100%', maxWidth:'100%', maxHeight:'50vh', aspectRatio:1.618,margin:'10px 0'
                             }}
                             responsive
-                            data={data}
+                            data={dataBar}
                             margin={{
                                 top: 5,
                                 right: 0,
@@ -115,7 +145,7 @@ function HomeDashboard() {
                     <span>Total STD</span>
                     
                     <div className="total-data"> 
-                        <Count end={148} duration={1.3} separator="." />
+                        <Count end={dataRender.std} duration={1.3} separator="." />
                     </div>
                     <div className="growth">5 increased from last month</div>
                         <LineChart
@@ -130,7 +160,7 @@ function HomeDashboard() {
                 <div className="data-section">
                     <span>Total ITM</span>
                     <div className="total-data">
-                        <Count end={253} duration={1.3} separator="." />
+                        <Count end={dataRender.itm} duration={1.3} separator="." />
                     </div>
                     <div className="growth">5 increased from last month</div>
                         <LineChart

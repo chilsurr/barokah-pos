@@ -9,6 +9,8 @@ import { useNavigate } from 'react-router-dom';
 import { getOrderDetail } from '../utils/api';
 import { useState } from 'react';
 
+import dayjs from 'dayjs';
+
 const RADIAN = Math.PI / 180;
 const COLORS1 = [
   "#1B5E20", // hijau gelap 1
@@ -62,14 +64,21 @@ function ItemsDashboard( { isAnimationActive = true }) {
     const [disgrowthData,setDisgrowthData] = useState([])
     console.log(growthData)
     console.log(disgrowthData)
+
     useEffect(()=>{
         const checkAuth = async() =>{
                     const isAuth = await isAuthenticated()
                     if(isAuth.status === 200){
                         getOrderDetail().then((result)=>{
+                            const date1 = dayjs().format("YYYY-MM-"+'01')
+                            const date2 = dayjs().format("YYYY-MM-DD")
+                            console.log(`${date1} - ${date2}`)
+                            const data = result.data.filter(item => item.created_at >= date1 && item.created_at <= date2)
+                            setData(result.data)
                             console.log(result.data)
+                            console.log(data)
                             const newData = Object.values(
-                                result.data.reduce((accum,item)=>{
+                                data.reduce((accum,item)=>{
                                     if(!accum[item.product.id]){
                                         accum[item.product.id] = {...item}
                                     }else{
@@ -114,20 +123,67 @@ function ItemsDashboard( { isAnimationActive = true }) {
                 checkAuth()
     },[])
 
-
-    const onChange = (date, dateString) => {
-        console.log(date, dateString);
+    const [firstDate, setFirstDate] = useState()
+    const [lastDate, setLastDate] = useState()
+    const onChange1 = (date, dateString) => {
+        console.log(dateString);
+        setFirstDate(dateString)
+    }
+    const onChange2 = (date, dateString) => {
+        console.log(dateString);
+        setLastDate(dateString)
     }
 
+    const handleProcess = (first, last)=>{
+        const dataDumy =  data.filter(item => item.created_at >= first && item.created_at <= last)
+        // setDataFilter(dataDumy)
+
+        const newData = Object.values(
+            dataDumy.reduce((accum,item)=>{
+                if(!accum[item.product.id]){
+                    accum[item.product.id] = {...item}
+                }else{
+                    accum[item.product.id].quantity += item.quantity 
+                }
+                return accum
+            },{})
+        )
+        // console.log(newData)
+        const sortData = newData.sort((a,b) => b.quantity - a.quantity)
+
+        const dumyGrowth = newData.slice(0,10)
+        const dumyDisgrowth = newData.slice(-10)
+        const growth = []
+        const disgrowth  = []
+        dumyGrowth.map((item,index) =>{
+            const dumy = {
+                name: item.product.name,
+                quantity:item.quantity,
+                index: index + 1
+            }
+            disgrowth.push(dumy)
+        })
+
+        dumyDisgrowth.map((item,index) =>{
+            const dumy = {
+                name: item.product.name,
+                quantity:item.quantity,
+                index: index + 1
+            }
+            growth.push(dumy)
+        })
+        setGrowthData(growth)
+        setDisgrowthData(disgrowth)
+    }
 
 
     const Count = CountUp.default
     return(
          <>
             <div className="date-input-dashboard">
-                <DatePicker className="date-picker" onChange={onChange} />
-                <DatePicker className="date-picker" onChange={onChange} />
-                <Button className='btn-proces-items'>Process</Button>
+                <DatePicker className="date-picker" onChange={onChange1} />
+                <DatePicker className="date-picker" onChange={onChange2} />
+                <Button className='btn-proces-items' onClick={()=> handleProcess(firstDate,lastDate)}>Process</Button>
                 <div className="bar-chart">
                     <BarChart
                         style={{

@@ -30,50 +30,55 @@ function MainLayout() {
     const handleOk = async() => {
         try {
             const data = {"username": username,"password": password}
-            const logOut = await postLogin(data)
 
-            if( logOut.status === 200){
-                const dataOrder = await getOrders().then((result) =>{
-                    return result.data.filter((item) => item.created_at.slice(0, 10) === date)
-                })
-                const dataOrderDetail = await getOrderDetail().then((result) => result.data.filter((item) => item.created_at === date))
-
-                const inc = dataOrder.reduce((accum,item) =>{
-                    return accum + item.total
-                }, 0)
-
-                const avc =  Math.round(inc/dataOrder.length)
-
-                const hpp = dataOrderDetail.reduce((accum,item) =>{
-                    return accum + item.product.hpp
-                }, 0)
-
-                const prf = inc - hpp
-
-                
-
-                const closeData = {
-                    "std" : dataOrder.length,
-                    "avc" : avc,
-                    "itm" : dataOrderDetail.length,
-                    "hpp" : hpp,
-                    "inc" : inc,
-                    "prf" : prf,
-                    "user" : dataUser.id,
-                }
-                alert('berhasil pak')
-                const result = await postClosing(closeData)
+            if(username === "" || password === "" ){
+                alert('Username atau Password tidak boleh kosong')
             }else{
-                alert("closing gagal pak")
-            } 
+                const logOut = await postLogin(data)
+    
+                if( logOut.status === 200){
+                    const dataOrder = await getOrders().then((result) =>{
+                        return result.data.filter((item) => item.created_at === date)
+                    })
+                    const dataOrderDetail = await getOrderDetail().then((result) => result.data.filter((item) => item.created_at === date))
+    
+                    const inc = dataOrder.reduce((accum,item) =>{
+                        return accum + item.total
+                    }, 0)
+    
+                    const avc =  Math.round(inc/dataOrder.length)
+    
+                    const hpp = dataOrderDetail.reduce((accum,item) =>{
+                        return accum + item.product.hpp
+                    }, 0)
+    
+                    const prf = inc - hpp
+    
+                    
+    
+                    const closeData = {
+                        "std" : dataOrder.length,
+                        "avc" : avc,
+                        "itm" : dataOrderDetail.length,
+                        "hpp" : hpp,
+                        "inc" : inc,
+                        "prf" : prf,
+                        "user" : dataUser.id,
+                    }
+                    alert('berhasil pak')
+                    const result = await postClosing(closeData)
+                }else{
+                    alert("closing gagal pak")
+                } 
+            }
         } catch (error) {
            console.log(error)
            alert('username atau password salah pak') 
         }
             
-        alert('masuk pak')
         setIsModalOpen(false);
     };
+
     const handleCancel = () => {
         setUsername('')
         setPassword('')
@@ -82,7 +87,8 @@ function MainLayout() {
     };
 
     const onChange = (date, dateString) => {
-        setDateInput(dateString);
+        console.log(date, dateString);
+        // setDateInput(dateString);
     };
     
 
@@ -116,7 +122,7 @@ function MainLayout() {
                 className="close-modal"
             >
                 <div className="form-close">
-                    <DatePicker className="close-input" value={dateInput} onChange={onChange} />
+                    <DatePicker className="close-input" onChange={onChange} />
                     <Input className="close-input" placeholder="input username" value={username} onChange={(e)=> setUsername(e.target.value)}/>
                     <Input.Password className="close-input" placeholder="input password" value={password} onChange={(e)=> setPassword(e.target.value)}/>
                 </div>

@@ -1,12 +1,15 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { Line, LineChart } from 'recharts';
-import { DatePicker  } from "antd"
+import { DatePicker,Button } from "antd"
 import CountUp from "react-countup";
 
 import { getClosing } from '../utils/api';
 import { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { isAuthenticated } from '../utils/auth';
+import dayjs from 'dayjs';
+
+
 
 function RevenueDashboard() {
     const navigate = useNavigate()
@@ -26,41 +29,74 @@ function RevenueDashboard() {
     ];
 
 
-    const [data,setData] = useState({
+        const [dataRender,setDataRender] = useState({
             inc : 0,
             hpp : 0,
             prf : 0,
         })
-        const [newData, setNewData] = useState([]) 
-        const dataChartBar = newData.map((item,index) =>({
+
+        const [data,setData] = useState([])
+        const [dataThisMonth, setDataThisMonth] = useState([]) 
+        const [dataFilter,setDataFilter] = useState([])
+        const dataChartBar = (dataFilter.length > 0 ? dataFilter : dataThisMonth).map((item,index) =>({
                 name: bulan[index],
                 INC: item.inc,
                 HPP: item.hpp,
                 PRF: item.prf,
         }))
 
-        const dataLineInc = newData.map((item) =>({
+        const dataLineInc = data.map((item) =>({
             value : item.inc
         }))
-        const dataLineHpp = newData.map((item) =>({
+        const dataLineHpp = data.map((item) =>({
             value : item.hpp
         }))
-        const dataLinePrf = newData.map((item) =>({
+        const dataLinePrf = data.map((item) =>({
             value : item.prf
         }))
-    
+        
+        const [firstDate, setFirstDate] = useState()
+        const [lastDate, setLastDate] = useState()
+        const onChange1 = (date, dateString) => {
+            console.log(dateString);
+            setFirstDate(dateString)
+        }
+        const onChange2 = (date, dateString) => {
+            console.log(dateString);
+            setLastDate(dateString)
+        }
+
+        const handleProcess = (first, last)=>{
+            const dataDumy =  data.filter(item => item.created_at >= first && item.created_at <= last)
+            setDataFilter(dataDumy)
+
+            const inc = dataDumy.reduce((total,item) => total + item.inc,0)
+            const hpp = dataDumy.reduce((total,item) => total + item.hpp,0)
+            const prf = dataDumy.reduce((total,item) => total + item.prf,0)
+
+            setDataRender({
+                inc : inc,
+                hpp : hpp,
+                prf : prf,
+            })
+        }
+
         useEffect(()=>{
             const checkAuth = async()  =>{
                 const isauth = await isAuthenticated()
                 if (isauth.status === 200) {
                     getClosing().then((result) => {
-                        setNewData(result.data)
-                        console.log(result.data)
-                        const inc = result.data.reduce((total,item) => total + item.inc,0)
-                        const hpp = result.data.reduce((total,item) => total + item.hpp,0)
-                        const prf = result.data.reduce((total,item) => total + item.prf,0)
+                        const date1 = dayjs().format("YYYY-MM-"+'01')
+                        const date2 = dayjs().format("YYYY-MM-DD")
+                        console.log(`${date1} - ${date2}`)
+                        const data = result.data.filter(item => item.created_at >= date1 && item.created_at <= date2)
+                        setDataThisMonth(data)
+                        setData(result.data)
+                        const inc = data.reduce((total,item) => total + item.inc,0)
+                        const hpp = data.reduce((total,item) => total + item.hpp,0)
+                        const prf = data.reduce((total,item) => total + item.prf,0)
     
-                        setData({
+                        setDataRender({
                             inc : inc,
                             hpp : hpp,
                             prf : prf,
@@ -74,17 +110,13 @@ function RevenueDashboard() {
             checkAuth()
         },[]) 
 
-    const onChange = (date, dateString) => {
-        console.log(date, dateString);
-    }
-
     const Count = CountUp.default
     return(
         <>
             <div className="date-input-dashboard">
-                <DatePicker className="close-input" onChange={onChange} />
-                <DatePicker className="close-input" onChange={onChange} />
-                {/* <Button className="btn-process-dashboard">Process</Button> */}
+                <DatePicker className="date-picker" onChange={onChange1} />
+                <DatePicker className="date-picker" onChange={onChange2} />
+                <Button className='btn-proces-items' onClick={()=> handleProcess(firstDate,lastDate)}>Process</Button>
                 </div>
                 <div className="chart">
                 <BarChart
@@ -115,7 +147,7 @@ function RevenueDashboard() {
                     <span>Total HPP</span>
                     
                     <div className="total-data">
-                        <Count end={52000000} duration={1.3} separator="." />
+                        <Count end={dataRender.hpp} duration={1.3} separator="." />
                     </div>
                     <div className="growth">5 increased from last month</div>
                     <LineChart
@@ -128,7 +160,7 @@ function RevenueDashboard() {
                 <div className="data-section">
                     <span>Total INCOME</span>
                     <div className="total-data">
-                        <Count end={76000000} duration={1.3} separator="." />
+                        <Count end={dataRender.inc} duration={1.3} separator="." />
                     </div>
                     <div className="growth">5 increased from last month</div>
                     <LineChart
@@ -141,7 +173,7 @@ function RevenueDashboard() {
                 <div className="data-section">
                     <span>Total PL</span>
                     <div className="total-data">
-                        <Count end={24000000} duration={1.3} separator="." />
+                        <Count end={dataRender.prf} duration={1.3} separator="." />
                     </div>
                     <div className="growth">5 increased from last month</div>
                     <LineChart
