@@ -45,13 +45,13 @@ function RevenueDashboard() {
                 PRF: item.prf,
         }))
 
-        const dataLineInc = data.map((item) =>({
+        const dataLineInc = (dataFilter.length > 0 ? dataFilter : data).slice(-5).map((item) =>({
             value : item.inc
         }))
-        const dataLineHpp = data.map((item) =>({
+        const dataLineHpp = (dataFilter.length > 0 ? dataFilter : data).slice(-5).map((item) =>({
             value : item.hpp
         }))
-        const dataLinePrf = data.map((item) =>({
+        const dataLinePrf = (dataFilter.length > 0 ? dataFilter : data).slice(-5).map((item) =>({
             value : item.prf
         }))
         
@@ -162,7 +162,7 @@ function RevenueDashboard() {
                     <div className="total-data">
                         <Count end={dataRender.inc} duration={1.3} separator="." />
                     </div>
-                    <div className="growth">5 increased from last month</div>
+                    <div className="growth">5 increased from last days</div>
                     <LineChart
                     style={{ width: '100%', maxWidth: '300px', maxHeight: '100px', aspectRatio: 1.618 }}
                     data={dataLineInc}
@@ -175,7 +175,7 @@ function RevenueDashboard() {
                     <div className="total-data">
                         <Count end={dataRender.prf} duration={1.3} separator="." />
                     </div>
-                    <div className="growth">5 increased from last month</div>
+                    <div className="growth">5 increased from last days</div>
                     <LineChart
                     style={{ width: '100%', maxWidth: '300px', maxHeight: '100px', aspectRatio: 1.618 }}
                     data={dataLinePrf}

@@ -63,8 +63,16 @@ function HomeDashboard() {
             ITM: item.itm,
     }))
 
+    console.log(dataThisMonth)
+    const dataLineStd = (dataFilter.length > 0 ? dataFilter : dataThisMonth).slice(-5).map((item) =>({
+        value : item.std
+    }))
+    const dataLineItm = (dataFilter.length > 0 ? dataFilter : dataThisMonth).slice(-5).map((item) =>({
+        value : item.itm
+    }))
+    console.log(dataLineItm)
 
-
+    
     const handleProcess = (first, last)=>{
         const dataDumy =  data.filter(item => item.created_at >= first && item.created_at <= last)
         setDataFilter(dataDumy)
@@ -147,12 +155,12 @@ function HomeDashboard() {
                     <div className="total-data"> 
                         <Count end={dataRender.std} duration={1.3} separator="." />
                     </div>
-                    <div className="growth">5 increased from last month</div>
+                    <div className="growth">5 increased from last days</div>
                         <LineChart
                         style={{ width: '100%', maxWidth: '300px', maxHeight: '100px', aspectRatio: 1.618 }}
-                        data={growth_data}
+                        data={dataLineStd}
                         >
-                            <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} animationDuration={1000} />
+                            <Line type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={2} animationDuration={1000} />
                         </LineChart>
 
                 </div>
@@ -162,12 +170,12 @@ function HomeDashboard() {
                     <div className="total-data">
                         <Count end={dataRender.itm} duration={1.3} separator="." />
                     </div>
-                    <div className="growth">5 increased from last month</div>
+                    <div className="growth">5 increased from last days</div>
                         <LineChart
                         style={{ width: '100%', maxWidth: '300px', maxHeight: '100px', aspectRatio: 1.618 }}
-                        data={growth_data}
+                        data={dataLineItm}
                         >
-                            <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} animationDuration={1000} />
+                            <Line type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={2} animationDuration={1000} />
                         </LineChart>
 
                 </div>
