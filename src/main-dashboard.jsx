@@ -28,7 +28,7 @@ function MainDashboard() {
                             <span>Barokah</span>
                         </div>
                         <div className="sidebar-section">
-                            <div className="sidebar-item" onClick={()=> navigate("")}>
+                            <div className={locations.pathname === "/master-dashboard/" ? "btn-active-dashboard" : "sidebar-item"} onClick={()=> navigate("master-dashboard/")}>
                                 <img src={logoDashboard} alt="" />
                                 <span>Dashboard</span>
                             </div>

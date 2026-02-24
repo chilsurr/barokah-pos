@@ -122,33 +122,31 @@ function HomeDashboard() {
                 <DatePicker className="date-picker" onChange={onChange1} />
                 <DatePicker className="date-picker" onChange={onChange2} />
                 <Button className='btn-proces-items'onClick={()=> handleProcess(firstDate,lastDate)}>Process</Button>
-                </div>
-                <div className="chart">
-
-                        <BarChart
-                            style={{
-                                width: '100%', maxWidth:'100%', maxHeight:'50vh', aspectRatio:1.618,margin:'10px 0'
-                            }}
-                            responsive
-                            data={dataBar}
-                            margin={{
-                                top: 5,
-                                right: 0,
-                                left: 0,
-                                bottom: 5,
-                            }}
-                        >
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="name" />
-                            <YAxis width="auto" />
-                            {/* <Tooltip /> */}
-                            <Legend />
-                            <Bar dataKey="ITM" fill="#2E7D32" animationDuration={1000} activeBar={{ fill: 'gold', stroke: 'purple' }} radius={[5, 5, 0, 0]} />
-                            <Bar dataKey="STD" fill="#66BB6A" animationDuration={1000} activeBar={{ fill: 'pink', stroke: 'blue' }} radius={[5, 5, 0, 0]} />
-                        </BarChart> 
-
-                </div>
-                <div className="data-transaction">
+            </div>
+            <div className="chart">
+                <BarChart
+                    style={{
+                        width: '100%', maxWidth:'100%', maxHeight:'50vh', aspectRatio:1.618,margin:'10px 0'
+                    }}
+                    responsive
+                    data={dataBar}
+                    margin={{
+                        top: 5,
+                        right: 0,
+                        left: 0,
+                        bottom: 5,
+                    }}
+                >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis width="auto" />
+                    {/* <Tooltip /> */}
+                    <Legend />
+                    <Bar dataKey="ITM" fill="#2E7D32" animationDuration={1000} activeBar={{ fill: 'gold', stroke: 'purple' }} radius={[5, 5, 0, 0]} />
+                    <Bar dataKey="STD" fill="#66BB6A" animationDuration={1000} activeBar={{ fill: 'pink', stroke: 'blue' }} radius={[5, 5, 0, 0]} />
+                </BarChart> 
+            </div>
+            <div className="data-transaction">
                 <div className="data-section">
                     <span>Total STD</span>
                     
@@ -156,12 +154,12 @@ function HomeDashboard() {
                         <Count end={dataRender.std} duration={1.3} separator="." />
                     </div>
                     <div className="growth">5 increased from last days</div>
-                        <LineChart
-                        style={{ width: '100%', maxWidth: '300px', maxHeight: '100px', aspectRatio: 1.618 }}
-                        data={dataLineStd}
-                        >
-                            <Line type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={2} animationDuration={1000} />
-                        </LineChart>
+                    <LineChart
+                    style={{ width: '100%', maxWidth: '300px', maxHeight: '100px', aspectRatio: 1.618 }}
+                    data={dataLineStd}
+                    >
+                        <Line type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={2} animationDuration={1000} />
+                    </LineChart>
 
                 </div>
 
@@ -171,12 +169,12 @@ function HomeDashboard() {
                         <Count end={dataRender.itm} duration={1.3} separator="." />
                     </div>
                     <div className="growth">5 increased from last days</div>
-                        <LineChart
-                        style={{ width: '100%', maxWidth: '300px', maxHeight: '100px', aspectRatio: 1.618 }}
-                        data={dataLineItm}
-                        >
-                            <Line type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={2} animationDuration={1000} />
-                        </LineChart>
+                    <LineChart
+                    style={{ width: '100%', maxWidth: '300px', maxHeight: '100px', aspectRatio: 1.618 }}
+                    data={dataLineItm}
+                    >
+                        <Line type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={2} animationDuration={1000} />
+                    </LineChart>
 
                 </div>
             </div>
