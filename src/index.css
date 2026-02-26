@@ -295,6 +295,9 @@
 
 
 /* master dashbard */
+.master-dashboard-container{
+  background-color: #fff ;
+}
 
 .data-header{
   display: flex;
@@ -303,11 +306,23 @@
 
 .main-data-section{
   width: 280px;
-  height: 150px;
+  height: 140px;
   padding: 15px 10px;
   color: var(--accent-color-4);
   border-radius: 5px;
   background-color: var(--primary-color);
+}
+
+.profit{
+  background-color: #2E7D32";
+}
+
+.struk{
+  background-color: #388E3C;
+}
+
+.items{
+  background-color: #43A047;
 }
 
 .data-tittle{
@@ -317,8 +332,8 @@
 }
 
 .border-icon{
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   margin-right: 10px;
   display: flex;
   justify-content: center;
@@ -327,12 +342,44 @@
   border-radius: 50%;
 }
 .data-tittle img{
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
 }
 
 .data-value{
-  margin-top: 20px;
-  font-size: 26px;
+  margin-top: 10px;
+  font-size: 25px;
   font-weight: 500;
+}
+
+.data-content{
+  display: flex;
+  width: 100%;
+}
+
+.data-linechart{
+  width: 70%;
+}
+
+.data-items{
+  width: 30%;
+  padding-bottom: 20px;
+  padding-left: 30px;
+}
+
+.header-items{
+  text-align: center;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.best-seller, .low-seller{
+  margin-top: 10px;
+  border-radius: 5px;
+  padding: 10px;
+  border: 1px solid var(--primary-color);
+}
+
+.best-seller span, .low-seller span{
+  font-size: 14px;
 }
