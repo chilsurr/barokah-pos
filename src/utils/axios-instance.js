@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: 'https://backendbarokah-production-c3d2.up.railway.app/',
+  baseURL: 'https://backendbarokah-production-c3d2.up.railway.app',
   timeout: 1000,
   // headers: {
   //   "Content-Type": "application/json",
