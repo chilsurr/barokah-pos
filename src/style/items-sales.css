@@ -1,0 +1,151 @@
+/* ==========================================================================
+   ITEMS SALES STYLES
+   ========================================================================== */
+
+.row-items-sales {
+  height: 100%;
+  width: 100%;
+  margin: 0 !important;
+  display: flex;
+  justify-content: center;
+}
+
+.col-items-sales {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 0;
+  box-sizing: border-box;
+}
+
+.items-sales-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--primary-color);
+  padding: 6px 0 10px 0;
+  letter-spacing: 0.5px;
+}
+
+.col-items-sales .search-item {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.col-items-sales .search-item input,
+.col-items-sales .search-item .ant-input {
+  height: 40px;
+  width: 85%;
+  max-width: 600px;
+  border-radius: 6px;
+  font-size: 15px;
+}
+
+.items-sales {
+  flex: 1;
+  min-height: 0;
+  background-color: var(--accent-color-4);
+  border-radius: 8px;
+  padding: 10px 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.items-sales::-webkit-scrollbar {
+  width: 6px;
+}
+
+.items-sales::-webkit-scrollbar-thumb {
+  background: #bfbfbf;
+  border-radius: 10px;
+}
+
+.items-sales .item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--accent-color-2);
+  margin: 8px 0;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.items-sales .item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+}
+
+.empty {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ==========================================================================
+   RESPONSIVE MEDIA QUERIES
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   TABLET: 768px - 1024px
+   -------------------------------------------------------------------------- */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .items-sales-header {
+    font-size: 19px;
+    padding: 4px 0 8px 0;
+  }
+
+  .col-items-sales .search-item input,
+  .col-items-sales .search-item .ant-input {
+    height: 38px;
+    width: 90%;
+    max-width: 480px;
+    font-size: 14px;
+  }
+
+  .items-sales {
+    padding: 8px 14px;
+  }
+
+  .items-sales .item {
+    font-size: 14px;
+    padding: 8px 12px;
+    margin: 6px 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   DESKTOP: > 1024px
+   -------------------------------------------------------------------------- */
+@media screen and (min-width: 1025px) {
+  .items-sales-header {
+    font-size: 24px;
+    padding: 8px 0 12px 0;
+  }
+
+  .col-items-sales .search-item input,
+  .col-items-sales .search-item .ant-input {
+    height: 42px;
+    width: 80%;
+    max-width: 650px;
+    font-size: 16px;
+  }
+
+  .items-sales {
+    padding: 14px 24px;
+  }
+
+  .items-sales .item {
+    font-size: 16px;
+    padding: 11px 18px;
+    margin: 8px 0;
+  }
+}

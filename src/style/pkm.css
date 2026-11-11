@@ -1,0 +1,271 @@
+/* ==========================================================================
+   PKM (PENETAPAN KUANTITAS MINIMUM) STYLES
+   ========================================================================== */
+
+.row-pkm {
+  width: 100%;
+  height: 100%;
+  margin: 0 !important;
+  display: flex;
+  justify-content: center;
+}
+
+.col-pkm {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 0;
+  box-sizing: border-box;
+}
+
+/* Search Box */
+.search-pkm {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.search-pkm input,
+.search-pkm .ant-input,
+.value-input {
+  width: 85%;
+  max-width: 600px;
+  height: 40px;
+  border-radius: 6px;
+  font-size: 15px;
+}
+
+/* PKM Items List */
+.pkm-items {
+  flex: 1;
+  min-height: 0;
+  background-color: var(--accent-color-4);
+  border-radius: 8px;
+  padding: 12px 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.pkm-items::-webkit-scrollbar {
+  width: 6px;
+}
+
+.pkm-items::-webkit-scrollbar-thumb {
+  background: #bfbfbf;
+  border-radius: 10px;
+}
+
+.pkm-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  min-height: 52px;
+  padding: 0 14px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  background-color: var(--accent-color-2);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: transform 0.15s ease;
+}
+
+.pkm-item:hover {
+  transform: translateY(-1px);
+}
+
+.acept-btn {
+  height: 34px;
+  padding: 0 16px;
+  font-weight: 600;
+  border-radius: 5px;
+  background-color: #ffffff;
+  border-color: #d9d9d9;
+}
+
+.acept-btn:hover {
+  border-color: var(--primary-color) !important;
+  color: var(--primary-color) !important;
+}
+
+/* Modal Counter */
+.modal-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.items-remaining,
+.items-to-add {
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.items-remaining span {
+  font-weight: 700;
+  color: #c62828;
+}
+
+.counter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 16px 0;
+}
+
+.count {
+  width: 55px;
+  height: 36px;
+  border-radius: 6px;
+  border: 1.5px solid var(--primary-color);
+  color: var(--primary-color);
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f1f8e9;
+}
+
+.counter-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+}
+
+.counter-btn:hover {
+  border-color: var(--primary-color) !important;
+  color: var(--primary-color) !important;
+}
+
+.custom-ok-button {
+  background-color: var(--primary-color) !important;
+  color: var(--accent-color-4) !important;
+  font-weight: 600;
+  border-radius: 6px;
+}
+
+.custom-ok-button:hover {
+  background-color: var(--primary-hover) !important;
+  border-color: var(--primary-hover) !important;
+  color: #ffffff !important;
+}
+
+.custom-cancel-button {
+  border-color: #ccc !important;
+  color: #555 !important;
+  border-radius: 6px;
+}
+
+.custom-cancel-button:hover {
+  border-color: var(--primary-color) !important;
+  color: var(--primary-color) !important;
+}
+
+/* Download Section */
+.download-xlsx {
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+.download-btn {
+  height: 44px;
+  width: 170px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 6px;
+  background-color: var(--primary-color);
+  color: var(--accent-color-4);
+  border: none;
+  transition: all 0.2s;
+}
+
+.download-btn:hover {
+  background-color: var(--primary-hover) !important;
+  border-color: var(--primary-hover) !important;
+  color: #ffffff !important;
+}
+
+/* ==========================================================================
+   RESPONSIVE MEDIA QUERIES
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   TABLET: 768px - 1024px
+   -------------------------------------------------------------------------- */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .search-pkm input,
+  .search-pkm .ant-input,
+  .value-input {
+    width: 90%;
+    max-width: 480px;
+    height: 38px;
+    font-size: 14px;
+  }
+
+  .pkm-items {
+    padding: 8px 14px;
+  }
+
+  .pkm-item {
+    font-size: 14px;
+    min-height: 46px;
+    padding: 0 10px;
+    margin-bottom: 6px;
+  }
+
+  .acept-btn {
+    height: 30px;
+    padding: 0 12px;
+    font-size: 12px;
+  }
+
+  .download-btn {
+    height: 40px;
+    width: 150px;
+    font-size: 13px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   DESKTOP: > 1024px
+   -------------------------------------------------------------------------- */
+@media screen and (min-width: 1025px) {
+  .search-pkm input,
+  .search-pkm .ant-input,
+  .value-input {
+    width: 80%;
+    max-width: 650px;
+    height: 42px;
+    font-size: 16px;
+  }
+
+  .pkm-items {
+    padding: 14px 24px;
+  }
+
+  .pkm-item {
+    font-size: 16px;
+    min-height: 54px;
+    padding: 0 16px;
+    margin-bottom: 8px;
+  }
+
+  .acept-btn {
+    height: 34px;
+    padding: 0 16px;
+    font-size: 13px;
+  }
+
+  .download-btn {
+    height: 46px;
+    width: 180px;
+    font-size: 15px;
+  }
+}

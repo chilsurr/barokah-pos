@@ -1,0 +1,254 @@
+/* ==========================================================================
+   STOCK MANAGEMENT STYLES
+   ========================================================================== */
+
+.row-stock {
+  width: 100%;
+  height: 100%;
+  margin: 0 !important;
+  display: flex;
+  justify-content: center;
+}
+
+.col-stock {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 0;
+  box-sizing: border-box;
+}
+
+/* Header Actions (Search & Update Button) */
+.header-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  width: 100%;
+}
+
+.header-actions input,
+.header-actions .ant-input {
+  width: 65%;
+  max-width: 500px;
+  height: 40px;
+  border-radius: 6px;
+  font-size: 15px;
+}
+
+.header-actions button {
+  min-width: 130px;
+  height: 40px;
+  background-color: var(--primary-color);
+  color: var(--accent-color-4);
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 6px;
+  border: none;
+  transition: all 0.2s;
+}
+
+.header-actions button:hover {
+  background-color: var(--primary-hover) !important;
+  border-color: var(--primary-hover) !important;
+  color: #ffffff !important;
+}
+
+/* Stock Header & Data Columns */
+.stock-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+  height: 40px;
+  font-weight: 700;
+  color: #2e3d2f;
+  padding: 0 16px;
+  margin-bottom: 6px;
+  background-color: var(--accent-color-2);
+  border-radius: 6px;
+}
+
+.stock-header-name {
+  flex: 2;
+  text-align: left;
+}
+
+.stock-header-child {
+  flex: 1.5;
+  display: grid;
+  grid-template-columns: 1fr 1fr 0.8fr;
+  text-align: right;
+  gap: 8px;
+}
+
+/* Stock List Container */
+.stock {
+  flex: 1;
+  min-height: 0;
+  background-color: var(--accent-color-4);
+  padding: 8px 12px;
+  border-radius: 8px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.stock::-webkit-scrollbar {
+  width: 6px;
+}
+
+.stock::-webkit-scrollbar-thumb {
+  background: #bfbfbf;
+  border-radius: 10px;
+}
+
+.stock .item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 16px;
+  margin: 6px 0;
+  background-color: #ffffff;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  font-size: 14px;
+  transition: transform 0.15s ease;
+}
+
+.stock .item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+.stock .item-name {
+  flex: 2;
+  text-align: left;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-right: 8px;
+}
+
+.stock .item-child {
+  flex: 1.5;
+  display: grid;
+  grid-template-columns: 1fr 1fr 0.8fr;
+  text-align: right;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.stock .item-child span:last-child {
+  color: var(--primary-color);
+}
+
+/* ==========================================================================
+   RESPONSIVE MEDIA QUERIES
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   TABLET: 768px - 1024px
+   -------------------------------------------------------------------------- */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .header-actions {
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .header-actions input,
+  .header-actions .ant-input {
+    width: 68%;
+    height: 38px;
+    font-size: 14px;
+  }
+
+  .header-actions button {
+    min-width: 110px;
+    height: 38px;
+    font-size: 13px;
+  }
+
+  .stock-header {
+    font-size: 13px;
+    height: 36px;
+    padding: 0 12px;
+  }
+
+  .stock {
+    padding: 6px 8px;
+  }
+
+  .stock .item {
+    font-size: 13px;
+    min-height: 40px;
+    padding: 0 12px;
+    margin: 4px 0;
+  }
+
+  .stock-header-name,
+  .stock .item-name {
+    flex: 1.6;
+  }
+
+  .stock-header-child,
+  .stock .item-child {
+    flex: 1.8;
+    gap: 4px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   DESKTOP: > 1024px
+   -------------------------------------------------------------------------- */
+@media screen and (min-width: 1025px) {
+  .header-actions {
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  .header-actions input,
+  .header-actions .ant-input {
+    width: 65%;
+    max-width: 550px;
+    height: 42px;
+    font-size: 15px;
+  }
+
+  .header-actions button {
+    min-width: 140px;
+    height: 42px;
+    font-size: 14px;
+  }
+
+  .stock-header {
+    font-size: 15px;
+    height: 42px;
+    padding: 0 18px;
+  }
+
+  .stock {
+    padding: 10px 16px;
+  }
+
+  .stock .item {
+    font-size: 15px;
+    min-height: 46px;
+    padding: 0 18px;
+    margin: 6px 0;
+  }
+
+  .stock-header-name,
+  .stock .item-name {
+    flex: 2;
+  }
+
+  .stock-header-child,
+  .stock .item-child {
+    flex: 1.5;
+    gap: 10px;
+  }
+}
